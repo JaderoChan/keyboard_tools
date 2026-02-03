@@ -1,4 +1,4 @@
-# Keyboard Tool
+# Keyboard Tools
 
 [ English | [简体中文](doc/README_ZH.md) ]
 
