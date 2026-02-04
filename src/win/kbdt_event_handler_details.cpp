@@ -32,20 +32,20 @@ static LRESULT WINAPI LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lPar
 
 int initialize()
 {
-    return KEYBOARD_TOOLS_RC_SUCCESS;
+    return KBDT_SUCCESS;
 }
 
 int stopWork()
 {
     if (PostThreadMessageA(workerThreadId, WM_DESTROY, 0, 0) != 0)
-        return KEYBOARD_TOOLS_RC_SUCCESS;
+        return KBDT_SUCCESS;
     return GetLastError();
 }
 
 int setEventHandler(KeyEventHandler handler)
 {
     if (PostThreadMessageA(workerThreadId, WM_SET_EVENT_HANDLER, (WPARAM) handler, 0) != 0)
-        return KEYBOARD_TOOLS_RC_SUCCESS;
+        return KBDT_SUCCESS;
     return GetLastError();
 }
 

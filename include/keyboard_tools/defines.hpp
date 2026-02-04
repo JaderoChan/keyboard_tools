@@ -29,6 +29,6 @@
 #endif // KEYBOARD_TOOLS_WIN
 
 /// @brief Return code for successful operation.
-#define KEYBOARD_TOOLS_RC_SUCCESS   0
+#define KBDT_SUCCESS    0
 
 #endif // !KEYBOARD_TOOLS_DEFINES_HPP

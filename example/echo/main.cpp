@@ -44,14 +44,14 @@ int main()
     auto& kbdtMgr = KeyboardToolsManager::getInstance();
 
     int rc = kbdtMgr.run();
-    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
+    if (rc != KBDT_SUCCESS)
     {
         printf("Failed to run the keyboard tools. Error code: %d\n", rc);
         exit(1);
     }
 
     rc = kbdtMgr.setEventHandler(&eventHandler);
-    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
+    if (rc != KBDT_SUCCESS)
     {
         printf("Failed to set the event handler. Error code: %d\n", rc);
         exit(1);
