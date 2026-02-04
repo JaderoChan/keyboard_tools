@@ -41,7 +41,7 @@ KeyboardToolsManager& KeyboardToolsManager::getInstance()
 int KeyboardToolsManager::run()
 {
     int rc = details::initialize();
-    if (rc != KBDT_SUCCESS)
+    if (rc != KBDT_RC_SUCCESS)
         return rc;
 
     workerThread = std::thread(&threadWork);
@@ -61,7 +61,7 @@ int KeyboardToolsManager::run()
 int KeyboardToolsManager::stop()
 {
     int rc = details::stopWork();
-    if (rc != KBDT_SUCCESS)
+    if (rc != KBDT_RC_SUCCESS)
         return rc;
 
     std::mutex dummyMtx;
@@ -69,7 +69,7 @@ int KeyboardToolsManager::stop()
     // Wait for the worker thread to exit and transition to free state.
     runningStateCv.wait(locker, [&]() { return runningState == RS_FREE; });
 
-    return KBDT_SUCCESS;
+    return KBDT_RC_SUCCESS;
 }
 
 int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
@@ -94,7 +94,7 @@ bool sendEvent(const KeyEvent& event)
 
 void setRunSuccess()
 {
-    runningRc = KBDT_SUCCESS;
+    runningRc = KBDT_RC_SUCCESS;
     runningState = RS_RUNNING;
     runningStateCv.notify_one();
 }

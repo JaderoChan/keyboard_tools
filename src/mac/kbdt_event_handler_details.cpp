@@ -34,19 +34,19 @@ static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, C
 
 int initialize()
 {
-    return KBDT_SUCCESS;
+    return KBDT_RC_SUCCESS;
 }
 
 int stopWork()
 {
     CFRunLoopStop(runLoop);
-    return KBDT_SUCCESS;
+    return KBDT_RC_SUCCESS;
 }
 
 int setEventHandler(KeyEventHandler handler)
 {
     eventHandler = handler;
-    return KBDT_SUCCESS;
+    return KBDT_RC_SUCCESS;
 }
 
 void work()
