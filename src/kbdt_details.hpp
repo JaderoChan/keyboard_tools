@@ -26,7 +26,7 @@ namespace details
 int initialize();
 
 /**
- * @brief Platform-specific stop worker thread.
+ * @brief Platform-specific stop the worker thread.
  * @note This function is called before the worker thread exits.
  * @note The worker thread will only exit after this function returns.
  * @return KBDT_RC_SUCCESS on success, error code on failure.
