@@ -84,7 +84,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX d)
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/templates/config.hpp.in
-    ${CMAKE_CURRENT_BINARY_DIR}/include/config.hpp
+    ${CMAKE_CURRENT_BINARY_DIR}/include/kbdt/config.hpp
 )
 
 include(GNUInstallDirs)
