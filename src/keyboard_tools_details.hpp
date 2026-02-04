@@ -1,10 +1,10 @@
-#ifndef KBDT_DETAILS_HPP
-#define KBDT_DETAILS_HPP
+#ifndef KEYBOARD_TOOLS_DETAILS_HPP
+#define KEYBOARD_TOOLS_DETAILS_HPP
 
 #include <vector>
 
-#include <kbdt/defines.hpp>
-#include <kbdt/types.hpp>
+#include <keyboard_tools/defines.hpp>
+#include <keyboard_tools/types.hpp>
 
 namespace kbdt
 {
@@ -21,7 +21,7 @@ namespace details
 /**
  * @brief Platform-specific initialize before the worker thread starts.
  * @note This function is called before the worker thread begins execution.
- * @return KBDT_RC_SUCCESS on success, error code on failure.
+ * @return KEYBOARD_TOOLS_RC_SUCCESS on success, error code on failure.
  */
 int initialize();
 
@@ -29,14 +29,14 @@ int initialize();
  * @brief Platform-specific stop the worker thread.
  * @note This function is called before the worker thread exits.
  * @note The worker thread will only exit after this function returns.
- * @return KBDT_RC_SUCCESS on success, error code on failure.
+ * @return KEYBOARD_TOOLS_RC_SUCCESS on success, error code on failure.
  */
 int stopWork();
 
 /**
  * @brief Platform-specific implementation to set the key event handler.
  * @param handler Function pointer to handle key events.
- * @return KBDT_RC_SUCCESS on success, error code on failure.
+ * @return KEYBOARD_TOOLS_RC_SUCCESS on success, error code on failure.
  */
 int setEventHandler(KeyEventHandler handler);
 
@@ -58,4 +58,4 @@ size_t sendEvents(const std::vector<KeyEvent>& events);
 
 } // namespace kbdt
 
-#endif // !KBDT_DETAILS_HPP
+#endif // !KEYBOARD_TOOLS_DETAILS_HPP

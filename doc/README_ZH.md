@@ -21,15 +21,15 @@ C++多平台的键盘事件监听和发送库，起初来自[Global Hotkey](http
 
 ## 编译选项
 
-- `KBDT_BUILD_SHARED`
+- `KEYBOARD_TOOLS_BUILD_SHARED`
 
     是否生成动态库，默认为`OFF`。
 
-- `KBDT_WITH_KEYUTILS`
+- `KEYBOARD_TOOLS_WITH_KEYUTILS`
 
     是否编译`Key utility`模块，其包含`Key`与`Native key code`的映射函数，以及`Key`与字符串的互转函数。如果你已有与`Native key code`的映射模块，则可以将此选项置`OFF`，默认为`ON`。
 
-- `KBDT_BUILD_EXAMPLE`
+- `KEYBOARD_TOOLS_BUILD_EXAMPLE`
 
     是否生成示例程序。
 

@@ -1,11 +1,11 @@
-#include <kbdt/kbdt.hpp>
+#include <keyboard_tools/keyboard_tools.hpp>
 
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
 
-#include "kbdt_details.hpp"
+#include "keyboard_tools_details.hpp"
 
 namespace kbdt
 {
@@ -41,7 +41,7 @@ KeyboardToolsManager& KeyboardToolsManager::getInstance()
 int KeyboardToolsManager::run()
 {
     int rc = details::initialize();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
         return rc;
 
     workerThread = std::thread(&threadWork);
@@ -61,7 +61,7 @@ int KeyboardToolsManager::run()
 int KeyboardToolsManager::stop()
 {
     int rc = details::stopWork();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
         return rc;
 
     std::mutex dummyMtx;
@@ -69,7 +69,7 @@ int KeyboardToolsManager::stop()
     // Wait for the worker thread to exit and transition to free state.
     runningStateCv.wait(locker, [&]() { return runningState == RS_FREE; });
 
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
@@ -94,7 +94,7 @@ bool sendEvent(const KeyEvent& event)
 
 void setRunSuccess()
 {
-    runningRc = KBDT_RC_SUCCESS;
+    runningRc = KEYBOARD_TOOLS_RC_SUCCESS;
     runningState = RS_RUNNING;
     runningStateCv.notify_one();
 }

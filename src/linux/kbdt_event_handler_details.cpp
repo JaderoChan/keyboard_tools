@@ -1,4 +1,4 @@
-#include <kbdt_details.hpp>
+#include <keyboard_tools_details.hpp>
 
 #include <string>
 #include <atomic>
@@ -69,7 +69,7 @@ static int emitWorkEvent(int64_t eventType, int64_t eventData)
     ssize_t wsize = write(pollFds[0].fd, &eventType, 8);
     if (wsize != 8)
         return errno;
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 static int setupWorkEventFd()
@@ -84,7 +84,7 @@ static int setupWorkEventFd()
     pollFd.revents = 0;
     pollFds[0] = pollFd;
 
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 static void unsetupWorkEventFd()
@@ -112,7 +112,7 @@ static int setupInotifyFd()
     pollFd.revents = 0;
     pollFds[1] = pollFd;
 
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 static void unsetupInotifyFd()
@@ -171,7 +171,7 @@ static int setupEvdevFds()
     }
     closedir(dir);
 
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 static void unsetupEvdevFds()
@@ -187,25 +187,25 @@ static void unsetupEvdevFds()
 static int setups()
 {
     int rc = setupWorkEventFd();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
         return rc;
 
     rc = setupInotifyFd();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
     {
         unsetupWorkEventFd();
         return rc;
     }
 
     rc = setupEvdevFds();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KEYBOARD_TOOLS_RC_SUCCESS)
     {
         unsetupWorkEventFd();
         unsetupInotifyFd();
         return rc;
     }
 
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 static void unsetups()

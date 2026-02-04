@@ -21,15 +21,15 @@ A cross-platform keyboard event listening and sending library written in C++. Or
 
 ## Build Options
 
-- `KBDT_BUILD_SHARED`
+- `KEYBOARD_TOOLS_BUILD_SHARED`
 
     Whether to build a dynamic library. Defaults to `OFF`.
 
-- `KBDT_WITH_KEYUTILS`
+- `KEYBOARD_TOOLS_WITH_KEYUTILS`
 
     Whether to compile the `Key utility` module, which includes functions for mapping `Key` to `Native key code`, as well as conversion functions between `Key` and strings. If you already have a `Native key code` mapping utility, you can set this option to `OFF`. Defaults to `ON`.
 
-- `KBDT_BUILD_EXAMPLE`
+- `KEYBOARD_TOOLS_BUILD_EXAMPLE`
 
     Whether to build example programs.
 

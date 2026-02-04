@@ -6,7 +6,7 @@ if(NOT TARGET keyboard_tools)
     find_package(keyboard_tools REQUIRED)
 endif()
 
-if(NOT KBDT_WITH_KEYUTILS)
+if(NOT KEYBOARD_TOOLS_WITH_KEYUTILS)
     message(FATAL_ERROR "${KBDT_MSG_PREFIX} Can't build example with no key utilitys.")
 endif()
 

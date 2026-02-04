@@ -1,4 +1,4 @@
-#include <kbdt_details.hpp>
+#include <keyboard_tools_details.hpp>
 
 #include <atomic>
 
@@ -15,7 +15,7 @@ namespace details
 {
 
 // Return code for failed operation.
-#define KBDT_RC_FAIL       -1
+#define KEYBOARD_TOOLS_RC_FAIL       -1
 
 std::atomic<KeyEventHandler> eventHandler{nullptr};
 static CFRunLoopRef runLoop = NULL;
@@ -34,19 +34,19 @@ static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, C
 
 int initialize()
 {
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 int stopWork()
 {
     CFRunLoopStop(runLoop);
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 int setEventHandler(KeyEventHandler handler)
 {
     eventHandler = handler;
-    return KBDT_RC_SUCCESS;
+    return KEYBOARD_TOOLS_RC_SUCCESS;
 }
 
 void work()
@@ -54,7 +54,7 @@ void work()
     runLoop = CFRunLoopGetCurrent();
     if (!runLoop)
     {
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KEYBOARD_TOOLS_RC_FAIL);
         return;
     }
 
@@ -71,7 +71,7 @@ void work()
         NULL);
     if (!eventTap)
     {
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KEYBOARD_TOOLS_RC_FAIL);
         return;
     }
 
@@ -80,7 +80,7 @@ void work()
     if (!runLoopSource)
     {
         CFRelease(eventTap);
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KEYBOARD_TOOLS_RC_FAIL);
         return;
     }
     CFRunLoopAddSource(runLoop, runLoopSource, kCFRunLoopDefaultMode);
