@@ -5,7 +5,7 @@
 namespace kbdt
 {
 
-KEYBOARD_TOOLS_API int keyToNativeKey(Key key) noexcept
+KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
 {
     switch (key)
     {
@@ -179,7 +179,7 @@ KEYBOARD_TOOLS_API int keyToNativeKey(Key key) noexcept
     }
 }
 
-KEYBOARD_TOOLS_API Key keyFromNativeKey(int nativeKey) noexcept
+KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
 {
     switch (nativeKey)
     {
