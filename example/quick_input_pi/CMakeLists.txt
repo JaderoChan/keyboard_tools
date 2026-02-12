@@ -6,8 +6,8 @@ if(NOT TARGET keyboard_tools)
     find_package(keyboard_tools REQUIRED)
 endif()
 
-if(NOT KEYBOARD_TOOLS_WITH_KEYUTILS)
-    message(FATAL_ERROR "${KBDT_MSG_PREFIX} Can't build example with no key utilitys.")
+if(NOT KEYBOARD_TOOLS_WITH_KEYUTIL)
+    message(FATAL_ERROR "${KBDT_MSG_PREFIX} Can't build example with no key utility.")
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp)

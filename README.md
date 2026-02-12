@@ -25,7 +25,7 @@ A cross-platform keyboard event listening and sending library written in C++. Or
 
     Whether to build a dynamic library. Defaults to `OFF`.
 
-- `KEYBOARD_TOOLS_WITH_KEYUTILS`
+- `KEYBOARD_TOOLS_WITH_KEYUTIL`
 
     Whether to compile the `Key utility` module, which includes functions for mapping `Key` to `Native key code`, as well as conversion functions between `Key` and strings. If you already have a `Native key code` mapping utility, you can set this option to `OFF`. Defaults to `ON`.
 

@@ -5,7 +5,7 @@
 #include <thread>
 
 #include <keyboard_tools/keyboard_tools.hpp>
-#include <keyboard_tools/key_utilitys.hpp>
+#include <keyboard_tools/key_utility.hpp>
 
 std::atomic<bool> shouldClose{false};
 std::condition_variable shouldCloseCv;
