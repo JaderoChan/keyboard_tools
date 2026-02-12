@@ -100,6 +100,6 @@ int main()
 
     kbdtMgr.stop();
 
-    printf("Successfully exit!\n");
+    printf("Exit successfully!\n");
     return 0;
 }

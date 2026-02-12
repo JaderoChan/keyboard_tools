@@ -34,7 +34,7 @@ int main()
 {
     if (!isEventPropagationBlockSupported())
     {
-        printf("This platform not support block the key event propagation.");
+        printf("This platform does not support blocking key event propagation.");
         exit(1);
     }
 
@@ -63,6 +63,6 @@ int main()
 
     kbdtMgr.stop();
 
-    printf("Successfully exit!\n");
+    printf("Exit successfully!\n");
     return 0;
 }
