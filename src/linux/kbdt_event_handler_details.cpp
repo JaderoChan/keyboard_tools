@@ -51,10 +51,10 @@ static bool isKeyboardDevice(int fd)
 
     char keyBits[KEY_MAX / 8 + 1];
     ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits);
-    int checkedKeys[] = {
+    uint32_t checkedKeys[] = {
         KEY_0, KEY_A, KEY_SPACE, KEY_ESC
     };
-    size_t checkedCount = sizeof(checkedKeys) / sizeof(int);
+    size_t checkedCount = sizeof(checkedKeys) / sizeof(uint32_t);
     for (size_t i = 0; i < checkedCount; ++i)
     {
         if ((keyBits[checkedKeys[i] / 8] & (1 << checkedKeys[i] % 8)) == 0)
