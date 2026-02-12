@@ -27,7 +27,7 @@ static void inputPi()
     {
         for (size_t i = 0; i < size; ++i)
         {
-            int nativeKey = keyToNativeKey(pi[i]);
+            auto nativeKey = keyToNativeKey(pi[i]);
             events.push_back({KET_PRESSED, nativeKey});
             events.push_back({KET_RELEASED, nativeKey});
         }
