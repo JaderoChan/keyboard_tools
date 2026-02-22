@@ -40,6 +40,9 @@ KeyboardToolsManager& KeyboardToolsManager::getInstance()
 
 int KeyboardToolsManager::run()
 {
+    if (isRunning())
+        return KBDT_RC_SUCCESS;
+
     int rc = details::initialize();
     if (rc != KBDT_RC_SUCCESS)
         return rc;
@@ -60,6 +63,9 @@ int KeyboardToolsManager::run()
 
 int KeyboardToolsManager::stop()
 {
+    if (!isRunning())
+        return KBDT_RC_SUCCESS;
+
     int rc = details::stopWork();
     if (rc != KBDT_RC_SUCCESS)
         return rc;
@@ -90,6 +96,17 @@ size_t sendEvents(const std::vector<KeyEvent>& events)
 bool sendEvent(const KeyEvent& event)
 {
     return sendEvents({event}) == 1;
+}
+
+bool isSupportBlockEventPropagation() noexcept
+{
+#if defined(KEYBOARD_TOOLS_WIN) || defined(KEYBOARD_TOOLS_MAC)
+    return true;
+#elif defined(KEYBOARD_TOOLS_LINUX) && defined(KEYBOARD_TOOLS_LINUX_EVENT_BLOCKER)
+    return true;
+#else
+    return false;
+#endif
 }
 
 void setRunSuccess()

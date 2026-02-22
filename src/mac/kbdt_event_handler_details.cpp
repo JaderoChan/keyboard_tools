@@ -6,6 +6,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreGraphics/CGEvent.h>
 
+#include <uuid.hpp>
 #include "event_converter.hpp"
 
 namespace kbdt
@@ -18,17 +19,18 @@ namespace details
 #define KBDT_RC_FAIL       -1
 
 std::atomic<KeyEventHandler> eventHandler{nullptr};
-static CFRunLoopRef runLoop = NULL;
+static std::atomic<CFRunLoopRef> runLoop{NULL};
 
 static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void* data)
 {
-    KeyEvent keyEvent;
-    keyEventFromCGEvent(keyEvent, type, event);
-    if (eventHandler.load())
-    {
-        if (!eventHandler.load()(keyEvent))
+    const auto tag = CGEventGetIntegerValueField(event, kCGEventSourceUserData);
+    if (tag == uuid())
+        return event;
+
+    KeyEvent keyEvent = keyEventFromCGEvent(type, event);
+    const auto handler = eventHandler.load();
+    if (handler && !handler(keyEvent))
             return NULL;
-    }
     return event;
 }
 
@@ -39,7 +41,9 @@ int initialize()
 
 int stopWork()
 {
-    CFRunLoopStop(runLoop);
+    auto loop = runLoop.load();
+    if (loop)
+        CFRunLoopStop(loop);
     return KBDT_RC_SUCCESS;
 }
 
@@ -51,17 +55,20 @@ int setEventHandler(KeyEventHandler handler)
 
 void work()
 {
-    runLoop = CFRunLoopGetCurrent();
-    if (!runLoop)
+    auto currentRunLoop = CFRunLoopGetCurrent();
+    if (!currentRunLoop)
     {
         setRunFail(KBDT_RC_FAIL);
         return;
     }
 
+    runLoop = currentRunLoop;
+
     CGEventMask eventMask =
         CGEventMaskBit(kCGEventKeyDown) |
         CGEventMaskBit(kCGEventKeyUp) |
         CGEventMaskBit(kCGEventFlagsChanged);
+
     CFMachPortRef eventTap = CGEventTapCreate(
         kCGHIDEventTap,
         kCGHeadInsertEventTap,
@@ -69,8 +76,10 @@ void work()
         eventMask,
         &keyboardTapCallback,
         NULL);
+
     if (!eventTap)
     {
+        runLoop = NULL;
         setRunFail(KBDT_RC_FAIL);
         return;
     }
@@ -80,10 +89,12 @@ void work()
     if (!runLoopSource)
     {
         CFRelease(eventTap);
+        runLoop = NULL;
         setRunFail(KBDT_RC_FAIL);
         return;
     }
-    CFRunLoopAddSource(runLoop, runLoopSource, kCFRunLoopDefaultMode);
+
+    CFRunLoopAddSource(runLoop.load(), runLoopSource, kCFRunLoopDefaultMode);
     CGEventTapEnable(eventTap, true);
 
     setRunSuccess();

@@ -6,10 +6,13 @@ namespace kbdt
 namespace details
 {
 
-void keyEventToInput(const KeyEvent& event, INPUT& input)
+INPUT keyEventToInput(const KeyEvent& event, uint64_t uuid)
 {
+    INPUT input = {0};
+
     input.type = INPUT_KEYBOARD;
     input.ki.wVk = (WORD) event.nativeKey;
+    input.ki.dwExtraInfo = (ULONG_PTR) uuid;
     switch (event.type)
     {
         case KET_RELEASED:
@@ -21,10 +24,14 @@ void keyEventToInput(const KeyEvent& event, INPUT& input)
         default:
             break;
     }
+
+    return input;
 }
 
-void keyEventFromParam(KeyEvent& event, WPARAM wParam, LPARAM lParam)
+KeyEvent keyEventFromParam(WPARAM wParam, LPARAM lParam)
 {
+    KeyEvent event;
+
     switch (wParam)
     {
         case WM_KEYDOWN:    // Fallthrough
@@ -40,6 +47,8 @@ void keyEventFromParam(KeyEvent& event, WPARAM wParam, LPARAM lParam)
     }
     KBDLLHOOKSTRUCT* kbdllhs = (KBDLLHOOKSTRUCT*) lParam;
     event.nativeKey = kbdllhs->vkCode;
+
+    return event;
 }
 
 } // namespace details

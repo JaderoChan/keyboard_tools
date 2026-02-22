@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(keyboard_tools VERSION 2.1.0 LANGUAGES CXX)
+project(keyboard_tools VERSION 2.2.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(KBDT_MSG_PREFIX "[Keyboard Tools]")
@@ -29,6 +29,7 @@ set(SRC)
 list(
     APPEND SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/keyboard_tools.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/uuid.cpp
 )
 if(WIN32)
     file(GLOB SRC ${SRC} ${CMAKE_CURRENT_SOURCE_DIR}/src/win/*.cpp)

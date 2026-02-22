@@ -16,10 +16,12 @@ static bool eventHandler(KeyEvent event)
     Key key = keyFromNativeKey(event.nativeKey);
     switch (key)
     {
+        // Block event propagation and send new events to achieve key remapping.
         case Key_A:
+            sendEvent(KeyEvent{event.type, keyToNativeKey(Key_B)});
+            return false;
         case Key_B:
-        case Key_C:
-        case Key_D:
+            sendEvent(KeyEvent{event.type, keyToNativeKey(Key_A)});
             return false;
         case Key_Esc:
             shouldClose = true;
@@ -54,7 +56,7 @@ int main()
         exit(1);
     }
 
-    printf("The key A,B,C,D has been diable.\n");
+    printf("The key A has been remap to B and the key B has been remap to A.\n");
     printf("Press ESC to exit!\n\n");
 
     std::mutex dummyMtx;

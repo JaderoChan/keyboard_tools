@@ -11,9 +11,9 @@ namespace kbdt
 namespace details
 {
 
-void keyEventToInputEvent(const KeyEvent& event, struct input_event& ie);
+struct input_event keyEventToInputEvent(const KeyEvent& event);
 
-void keyEventFromInputEvent(KeyEvent& event, const struct input_event& ie);
+KeyEvent keyEventFromInputEvent(const struct input_event& ie);
 
 } // namespace details
 

@@ -8,34 +8,56 @@ namespace kbdt
 namespace details
 {
 
-#define MOD_FIRST   kVK_RightCommand
-#define MOD_LAST    kVK_Function
-#define MOD_COUNT   (MOD_LAST - MOD_FIRST + 1)
-
-static bool modStates[MOD_COUNT] = {0};
-#define GMSINDEX(keyCode)   ((keyCode) - MOD_FIRST)
-#define GMS(keyCode)        (modStates[GMSINDEX(keyCode)])
-
-void keyEventToCGEvent(const KeyEvent& event, CGEventRef& cgEvent)
+static CGEventFlags modifierMaskForKeyCode(CGKeyCode keyCode)
 {
+    switch (keyCode)
+    {
+        case kVK_Shift:
+        case kVK_RightShift:
+            return kCGEventFlagMaskShift;
+        case kVK_Control:
+        case kVK_RightControl:
+            return kCGEventFlagMaskControl;
+        case kVK_Option:
+        case kVK_RightOption:
+            return kCGEventFlagMaskAlternate;
+        case kVK_Command:
+        case kVK_RightCommand:
+            return kCGEventFlagMaskCommand;
+        case kVK_CapsLock:
+            return kCGEventFlagMaskAlphaShift;
+        case kVK_Function:
+            return kCGEventFlagMaskSecondaryFn;
+        default:
+            return 0;
+    }
+}
+
+CGEventRef keyEventToCGEvent(const KeyEvent& event, uint64_t uuid)
+{
+    CGEventRef cgEvent = NULL;
+
     CGKeyCode keyCode = (CGKeyCode) event.nativeKey;
-    bool state = false;
     switch (event.type)
     {
         case KET_PRESSED:
-            state = true;
+            cgEvent = CGEventCreateKeyboardEvent(NULL, keyCode, true);
             break;
         case KET_RELEASED:
-            state = false;
+            cgEvent = CGEventCreateKeyboardEvent(NULL, keyCode, false);
             break;
         default:
-            break;
+            return NULL;
     }
-    cgEvent = CGEventCreateKeyboardEvent(NULL, keyCode, state);
+
+    CGEventSetIntegerValueField(cgEvent, kCGEventSourceUserData, (int64_t) uuid);
+    return cgEvent;
 }
 
-void keyEventFromCGEvent(KeyEvent& event, CGEventType cgEventType, CGEventRef cgEvent)
+KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent)
 {
+    KeyEvent event;
+
     event.nativeKey = (uint32_t) CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeycode);
     switch (cgEventType)
     {
@@ -47,14 +69,19 @@ void keyEventFromCGEvent(KeyEvent& event, CGEventType cgEventType, CGEventRef cg
             break;
         case kCGEventFlagsChanged:
         {
-            bool& modState = GMS(event.nativeKey);
-            event.type = modState ? KET_RELEASED : KET_PRESSED;
-            modState = !modState;
+            CGEventFlags mask = modifierMaskForKeyCode((CGKeyCode) event.nativeKey);
+            if (mask != 0)
+            {
+                CGEventFlags flags = CGEventGetFlags(cgEvent);
+                event.type = (flags & mask) ? KET_PRESSED : KET_RELEASED;
+            }
             break;
         }
         default:
             break;
     }
+
+    return event;
 }
 
 } // namespace details

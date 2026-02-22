@@ -44,27 +44,33 @@ public:
     /**
      * @brief Run the keyboard tools service.
      * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @note thread-safe
+     * @sa stop()
      */
     int run();
 
     /**
      * @brief Stop the keyboard tools service.
-     * @attention Do not call this function from within the event handler thread.
      * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @note Can be executed safely in threads other than worker threads.
+     * @attention Do not call this function from within the event handler thread.
+     * @sa run()
      */
     int stop();
 
     /**
      * @brief Set the key event handler callback function.
      * @param handler Function for handling key events.
-     * @note It only be set while service is running.
      * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @note It only be set while service is running.
+     * @note thread-safe
      */
     int setEventHandler(KeyEventHandler handler);
 
     /**
      * @brief Check if the keyboard tools service is running.
      * @return True if the service is running, false otherwise.
+     * @note thread-safe
      */
     bool isRunning() noexcept;
 
@@ -77,35 +83,31 @@ private:
 
 /**
  * @brief Send multiple key events.
- * @note Events sent through this function will still be received by the event handler.
  * @param events List of key events to send.
  * @return Number of events successfully sent.
+ * @note Events sent through this function will not be received by the event handler.
+ * @note Ensure that event sending is atomic, that is, event lists sent by different threads will not be interleaved.
+ * @note thread-safe
+ * @sa sendEvent()
  */
 size_t sendEvents(const std::vector<KeyEvent>& events);
 
 /**
  * @brief Send a single key event.
- * @note Events sent through this function will still be received by the event handler.
  * @param event Key event to send.
  * @return True if the event been sent successfully, false otherwise.
+ * @note Events sent through this function will not be received by the event handler.
+ * @note thread-safe
+ * @sa sendEvents()
  */
 bool sendEvent(const KeyEvent& event);
 
 /**
  * @brief Check whether blocking the propagation of key events is supported.
+ * @return True if blocking is supported, false otherwise.
+ * @note thread-safe
  */
-constexpr bool isEventPropagationBlockSupported()
-{
-#ifdef KEYBOARD_TOOLS_WIN
-    return true;
-#elif defined(KEYBOARD_TOOLS_MAC)
-    return true;
-#elif defined(KEYBOARD_TOOLS_LINUX)
-    return false;
-#else
-    return false;
-#endif // KEYBOARD_TOOLS_WIN
-}
+bool isSupportBlockEventPropagation() noexcept;
 
 } // namespace kbdt
 
