@@ -95,8 +95,8 @@ int main()
     printf("Press ESC to exit!\n\n");
 
     std::mutex dummyMtx;
-    std::unique_lock<std::mutex> locker(dummyMtx);
-    shouldCloseCv.wait(locker, [&]() { return shouldClose.load(); });
+    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
+    shouldCloseCv.wait(dummyLocker, [&]() { return shouldClose.load(); });
 
     kbdtMgr.stop();
 

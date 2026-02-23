@@ -54,12 +54,12 @@ int main()
         exit(1);
     }
 
-    printf("The key A,B,C,D has been diable.\n");
+    printf("The key A,B,C,D has been disabled.\n");
     printf("Press ESC to exit!\n\n");
 
     std::mutex dummyMtx;
-    std::unique_lock<std::mutex> locker(dummyMtx);
-    shouldCloseCv.wait(locker, [&]() { return shouldClose.load(); });
+    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
+    shouldCloseCv.wait(dummyLocker, [&]() { return shouldClose.load(); });
 
     kbdtMgr.stop();
 
