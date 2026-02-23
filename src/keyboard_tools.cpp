@@ -17,6 +17,7 @@ enum RunningState : uint8_t
     RS_TERMINATE
 };
 
+static std::mutex runAndStopMtx;
 static std::thread workerThread;
 static std::condition_variable runningStateCv;
 static std::atomic<RunningState> runningState{RS_FREE};
@@ -40,6 +41,8 @@ KeyboardToolsManager& KeyboardToolsManager::getInstance()
 
 int KeyboardToolsManager::run()
 {
+    std::lock_guard<std::mutex> locker(runAndStopMtx);
+
     if (isRunning())
         return KBDT_RC_SUCCESS;
 
@@ -51,9 +54,9 @@ int KeyboardToolsManager::run()
     workerThread.detach();
 
     std::mutex dummyMtx;
-    std::unique_lock<std::mutex> locker(dummyMtx);
+    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
     // Wait for the worker thread to set the running state.
-    runningStateCv.wait(locker, [&]() { return runningState != RS_FREE; });
+    runningStateCv.wait(dummyLocker, [&]() { return runningState != RS_FREE; });
     if (runningState == RS_TERMINATE)
         runningState = RS_FREE;
     rc = runningRc;
@@ -63,6 +66,8 @@ int KeyboardToolsManager::run()
 
 int KeyboardToolsManager::stop()
 {
+    std::lock_guard<std::mutex> locker(runAndStopMtx);
+
     if (!isRunning())
         return KBDT_RC_SUCCESS;
 
@@ -71,9 +76,9 @@ int KeyboardToolsManager::stop()
         return rc;
 
     std::mutex dummyMtx;
-    std::unique_lock<std::mutex> locker(dummyMtx);
+    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
     // Wait for the worker thread to exit and transition to free state.
-    runningStateCv.wait(locker, [&]() { return runningState == RS_FREE; });
+    runningStateCv.wait(dummyLocker, [&]() { return runningState == RS_FREE; });
 
     return KBDT_RC_SUCCESS;
 }
