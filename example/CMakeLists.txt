@@ -9,7 +9,7 @@ if(NOT TARGET keyboard_tools)
 endif()
 
 if(NOT KEYBOARD_TOOLS_WITH_KEYUTIL)
-    message(FATAL_ERROR "${KBDT_MSG_PREFIX} Can't build example with no key utility.")
+    message(FATAL_ERROR "${KBDT_MSG_PREFIX} Can't build example without key utility.")
 endif()
 
 link_libraries(keyboard_tools::keyboard_tools)
