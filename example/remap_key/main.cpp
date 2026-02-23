@@ -36,7 +36,7 @@ int main()
 {
     if (!isSupportBlockEventPropagation())
     {
-        printf("Block event propagation is not supported on this platform.\n");
+        printf("Block event propagation is not supported on this platform!\n");
         return 1;
     }
 
@@ -45,14 +45,14 @@ int main()
     int rc = kbdtMgr.run();
     if (rc != KBDT_RC_SUCCESS)
     {
-        printf("Failed to run the keyboard tools. Error code: %d\n", rc);
+        printf("Failed to run the keyboard tools. Error code: %d.\n", rc);
         exit(1);
     }
 
     rc = kbdtMgr.setEventHandler(&eventHandler);
     if (rc != KBDT_RC_SUCCESS)
     {
-        printf("Failed to set the event handler. Error code: %d\n", rc);
+        printf("Failed to set the event handler. Error code: %d.\n", rc);
         exit(1);
     }
 

@@ -81,14 +81,14 @@ int main()
     int rc = kbdtMgr.run();
     if (rc != KBDT_RC_SUCCESS)
     {
-        printf("Failed to run the keyboard tools. Error code: %d\n", rc);
+        printf("Failed to run the keyboard tools. Error code: %d.\n", rc);
         exit(1);
     }
 
     rc = kbdtMgr.setEventHandler(&eventHandler);
     if (rc != KBDT_RC_SUCCESS)
     {
-        printf("Failed to set the event handler. Error code: %d\n", rc);
+        printf("Failed to set the event handler. Error code: %d.\n", rc);
         exit(1);
     }
 
