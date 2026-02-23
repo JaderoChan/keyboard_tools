@@ -4,6 +4,8 @@
 
 A cross-platform keyboard event listening and sending library written in C++. Originally derived from the `KeyboardHook` module in the [Global Hotkey](https://github.com/JaderoChan/global_hotkey) library.
 
+This library by original C library ([Keyboard Tool](https://github.com/JaderoChan/keyboard_tool)) migrated to the C++, so the source has many **C++-unlike** behavior.
+
 ## Features
 
 - Written in C++11

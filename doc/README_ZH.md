@@ -4,6 +4,8 @@
 
 C++多平台的键盘事件监听和发送库，起初来自[Global Hotkey](https://github.com/JaderoChan/global_hotkey)库中的`KeyboardHook`模块。
 
+此库由原始C语言库（[Keyboard Tool](https://github.com/JaderoChan/keyboard_tool)）迁移至C++而产生，故源码中有许多 **C++-unlike** 的做法。
+
 ## 特性
 
 - 使用C++11
