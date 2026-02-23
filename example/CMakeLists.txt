@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project(keyboard_tools_example LANGUAGES CXX)
 set(KBDT_MSG_PREFIX "[Keyboard Tools Example]")
-message(STATUS "${KBDT_MSG_PREFIX} Example will be builded.")
+message(STATUS "${KBDT_MSG_PREFIX} Example will be built.")
 
 if(NOT TARGET keyboard_tools)
     find_package(keyboard_tools REQUIRED)
