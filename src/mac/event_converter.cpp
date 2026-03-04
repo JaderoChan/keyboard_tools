@@ -35,19 +35,19 @@ static CGEventFlags modifierMaskForKeyCode(CGKeyCode keyCode)
 
 CGEventRef keyEventToCGEvent(const KeyEvent& event, uint64_t uuid)
 {
-    CGEventRef cgEvent = NULL;
+    CGEventRef cgEvent = nullptr;
 
     CGKeyCode keyCode = (CGKeyCode) event.nativeKey;
     switch (event.type)
     {
         case KET_PRESSED:
-            cgEvent = CGEventCreateKeyboardEvent(NULL, keyCode, true);
+            cgEvent = CGEventCreateKeyboardEvent(nullptr, keyCode, true);
             break;
         case KET_RELEASED:
-            cgEvent = CGEventCreateKeyboardEvent(NULL, keyCode, false);
+            cgEvent = CGEventCreateKeyboardEvent(nullptr, keyCode, false);
             break;
         default:
-            return NULL;
+            return nullptr;
     }
 
     CGEventSetIntegerValueField(cgEvent, kCGEventSourceUserData, (int64_t) uuid);

@@ -19,7 +19,7 @@ namespace details
 #define KBDT_RC_FAIL       -1
 
 std::atomic<KeyEventHandler> eventHandler{nullptr};
-static std::atomic<CFRunLoopRef> runLoop{NULL};
+static std::atomic<CFRunLoopRef> runLoop{nullptr};
 
 static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void* data)
 {
@@ -30,7 +30,7 @@ static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, C
     KeyEvent keyEvent = keyEventFromCGEvent(type, event);
     const auto handler = eventHandler.load();
     if (handler && !handler(keyEvent))
-            return NULL;
+            return nullptr;
     return event;
 }
 
@@ -75,11 +75,11 @@ void work()
         kCGEventTapOptionDefault,
         eventMask,
         &keyboardTapCallback,
-        NULL);
+        nullptr);
 
     if (!eventTap)
     {
-        runLoop = NULL;
+        runLoop = nullptr;
         setRunFail(KBDT_RC_FAIL);
         return;
     }
@@ -89,7 +89,7 @@ void work()
     if (!runLoopSource)
     {
         CFRelease(eventTap);
-        runLoop = NULL;
+        runLoop = nullptr;
         setRunFail(KBDT_RC_FAIL);
         return;
     }
@@ -104,7 +104,7 @@ void work()
     CFRelease(runLoopSource);
 
     eventHandler = nullptr;
-    runLoop = NULL;
+    runLoop = nullptr;
 }
 
 } // namespace details
