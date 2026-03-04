@@ -40,7 +40,7 @@ static void inputPi()
 
 static bool eventHandler(KeyEvent event)
 {
-    static Key keySeq[2] = {(Key) 0};
+    static Key keySeq[2] = {static_cast<Key>(0)};
 
     Key key = keyFromNativeKey(event.nativeKey);
     switch (event.type)

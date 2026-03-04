@@ -7,8 +7,8 @@
 
 #include <uuid.hpp>
 
-#define UINT32_LOW16(x)     (uint16_t) ((x) & 0xFFFF)
-#define UINT32_HIGH16(x)    (uint16_t) (((x) >> 16) & 0xFFFF)
+#define UINT32_LOW16(x)     static_cast<uint16_t>((x) & 0xFFFF)
+#define UINT32_HIGH16(x)    static_cast<uint16_t>(((x) >> 16) & 0xFFFF)
 
 namespace kbdt
 {
@@ -22,8 +22,8 @@ KbdUInput& globalKbdUInputInstance()
     static KbdUInput instance(
         KBD_UINPUT_NAME,
         UINPUT_VENDOR,
-        UINT32_LOW16((uint32_t) uuid()),
-        UINT32_HIGH16((uint32_t) uuid()));
+        UINT32_LOW16(static_cast<uint32_t>(uuid())),
+        UINT32_HIGH16(static_cast<uint32_t>(uuid())));
     return instance;
 }
 
@@ -39,8 +39,8 @@ bool isInstanceKbdUInput(int fd)
 
     return strcmp(name, KBD_UINPUT_NAME) == 0 &&
            id.vendor == UINPUT_VENDOR &&
-           id.product == UINT32_LOW16((uint32_t) uuid()) &&
-           id.version == UINT32_HIGH16((uint32_t) uuid());
+           id.product == UINT32_LOW16(static_cast<uint32_t>(uuid())) &&
+           id.version == UINT32_HIGH16(static_cast<uint32_t>(uuid()));
 }
 
 } // namespace details

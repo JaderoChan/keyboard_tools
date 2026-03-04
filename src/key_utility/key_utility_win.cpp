@@ -145,7 +145,7 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
 KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
 {
     if ((nativeKey >= '0' && nativeKey <= '9') || (nativeKey >= 'A' && nativeKey <= 'Z'))
-        return (Key) nativeKey;
+        return static_cast<Key>(nativeKey);
 
     switch (nativeKey)
     {
@@ -273,7 +273,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
         case VK_LSHIFT:             return Key_Shift_Left;
         case VK_RSHIFT:             return Key_Shift_Right;
 
-        default:                    return (Key) 0;
+        default:                    return static_cast<Key>(0);
     }
 }
 

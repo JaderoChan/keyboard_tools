@@ -37,7 +37,7 @@ CGEventRef keyEventToCGEvent(const KeyEvent& event, uint64_t uuid)
 {
     CGEventRef cgEvent = nullptr;
 
-    CGKeyCode keyCode = (CGKeyCode) event.nativeKey;
+    CGKeyCode keyCode = static_cast<CGKeyCode>(event.nativeKey);
     switch (event.type)
     {
         case KET_PRESSED:
@@ -50,7 +50,7 @@ CGEventRef keyEventToCGEvent(const KeyEvent& event, uint64_t uuid)
             return nullptr;
     }
 
-    CGEventSetIntegerValueField(cgEvent, kCGEventSourceUserData, (int64_t) uuid);
+    CGEventSetIntegerValueField(cgEvent, kCGEventSourceUserData, static_cast<int64_t>(uuid));
     return cgEvent;
 }
 
@@ -58,7 +58,7 @@ KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent)
 {
     KeyEvent event;
 
-    event.nativeKey = (uint32_t) CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeycode);
+    event.nativeKey = static_cast<uint32_t>(CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeycode));
     switch (cgEventType)
     {
         case kCGEventKeyDown:
@@ -69,7 +69,7 @@ KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent)
             break;
         case kCGEventFlagsChanged:
         {
-            CGEventFlags mask = modifierMaskForKeyCode((CGKeyCode) event.nativeKey);
+            CGEventFlags mask = modifierMaskForKeyCode(static_cast<CGKeyCode>(event.nativeKey));
             if (mask != 0)
             {
                 CGEventFlags flags = CGEventGetFlags(cgEvent);

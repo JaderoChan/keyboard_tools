@@ -345,7 +345,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
         case KEY_LEFTSHIFT:         return Key_Shift_Left;
         case KEY_RIGHTSHIFT:        return Key_Shift_Right;
 
-        default:                    return (Key) 0;
+        default:                    return static_cast<Key>(0);
     }
 }
 

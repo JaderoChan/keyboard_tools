@@ -19,7 +19,7 @@ KeyEvent keyEventFromInputEvent(const struct input_event& ie)
 {
     KeyEvent event;
     event.type = (ie.value == 0 ? KET_RELEASED : KET_PRESSED);
-    event.nativeKey = (uint32_t) ie.code;
+    event.nativeKey = static_cast<uint32_t>(ie.code);
     return event;
 }
 

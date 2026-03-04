@@ -248,10 +248,10 @@ static bool isEqualStr(const std::string& str1, const std::string& str2) noexcep
 KEYBOARD_TOOLS_API Key keyFromStr(const std::string& str) noexcept
 {
     if (str.empty())
-        return (Key) 0;
+        return static_cast<Key>(0);
 
     if (str.size() == 1 && IS_ALNUM(str[0]))
-        return (Key) str[0];
+        return static_cast<Key>(str[0]);
 
     // Whitespace keys
     if (isEqualStr(str, "tab"))     return Key_Tab;
@@ -422,7 +422,7 @@ KEYBOARD_TOOLS_API Key keyFromStr(const std::string& str) noexcept
     if (IS_SHIFT(str, "left"))      return Key_Shift_Left;
     if (IS_SHIFT(str, "right"))     return Key_Shift_Right;
 
-    return (Key) 0;
+    return static_cast<Key>(0);
 }
 
 } // namespace kbdt

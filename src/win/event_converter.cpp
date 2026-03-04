@@ -11,8 +11,8 @@ INPUT keyEventToInput(const KeyEvent& event, uint64_t uuid)
     INPUT input = {0};
 
     input.type = INPUT_KEYBOARD;
-    input.ki.wVk = (WORD) event.nativeKey;
-    input.ki.dwExtraInfo = (ULONG_PTR) uuid;
+    input.ki.wVk = static_cast<WORD>(event.nativeKey);
+    input.ki.dwExtraInfo = static_cast<ULONG_PTR>(uuid);
     switch (event.type)
     {
         case KET_RELEASED:
@@ -45,7 +45,7 @@ KeyEvent keyEventFromParam(WPARAM wParam, LPARAM lParam)
         default:
             break;
     }
-    KBDLLHOOKSTRUCT* kbdllhs = (KBDLLHOOKSTRUCT*) lParam;
+    KBDLLHOOKSTRUCT* kbdllhs = reinterpret_cast<KBDLLHOOKSTRUCT*>(static_cast<intptr_t>(lParam));
     event.nativeKey = kbdllhs->vkCode;
 
     return event;

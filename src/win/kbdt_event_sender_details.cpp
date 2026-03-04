@@ -22,7 +22,7 @@ size_t sendEvents(const std::vector<KeyEvent>& events)
     for (size_t i = 0; i < eventCount; ++i)
         inputs.push_back(keyEventToInput(events[i], uuid()));
 
-    UINT sent = SendInput((UINT) eventCount, inputs.data(), sizeof(INPUT));
+    UINT sent = SendInput(static_cast<UINT>(eventCount), inputs.data(), sizeof(INPUT));
     return sent;
 }
 
