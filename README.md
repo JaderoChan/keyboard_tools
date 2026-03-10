@@ -9,7 +9,7 @@ This library by original C library ([Keyboard Tool](https://github.com/JaderoCha
 ## Features
 
 - Written in C++11
-- Supports Windows, Linux, and macOS
+- Supports **Windows**, **Linux**, and **MacOS**
 
 ## How to Build?
 

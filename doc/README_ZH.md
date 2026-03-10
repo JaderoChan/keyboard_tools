@@ -2,19 +2,19 @@
 
 [ [English](README_EN.md) | 简体中文 ]
 
-C++多平台的键盘事件监听和发送库，起初来自[Global Hotkey](https://github.com/JaderoChan/global_hotkey)库中的`KeyboardHook`模块。
+C++多平台的键盘事件监听和发送库，起初来自 [Global Hotkey](https://github.com/JaderoChan/global_hotkey) 库中的 `KeyboardHook` 模块。
 
 此库由原始C语言库（[Keyboard Tool](https://github.com/JaderoChan/keyboard_tool)）迁移至C++而产生，故源码中有许多 **C++-unlike** 的做法。
 
 ## 特性
 
 - 使用C++11
-- 支持Windows、Linux、MacOs
+- 支持 **Windows**、**Linux**、**MacOS**
 
 ## 如何编译？
 
-1. 运行根目录下对应的`install`脚本，生成库和示例程序并安装至`./install`目录下。
-2. 使用`CMake`，例如：
+1. 运行根目录下对应的 `install` 脚本，生成库和示例程序并安装至 `./install` 目录下。
+2. 使用 `CMake`，例如：
 
     ```sh
     cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -25,11 +25,11 @@ C++多平台的键盘事件监听和发送库，起初来自[Global Hotkey](http
 
 - `KEYBOARD_TOOLS_BUILD_SHARED`
 
-    是否生成动态库，默认为`OFF`。
+    是否生成动态库，默认为 `OFF`。
 
 - `KEYBOARD_TOOLS_WITH_KEYUTIL`
 
-    是否编译`Key utility`模块，其包含`Key`与`Native key code`的映射函数，以及`Key`与字符串的互转函数。如果你已有与`Native key code`的映射模块，则可以将此选项置`OFF`，默认为`ON`。
+    是否编译 `Key utility` 模块，其包含 `Key` 与 `Native key code` 的映射函数，以及 `Key` 与字符串的互转函数。如果你已有与 `Native key code` 的映射模块，则可以将此选项置 `OFF`，默认为 `ON`。
 
 - `KEYBOARD_TOOLS_BUILD_EXAMPLE`
 
@@ -38,4 +38,4 @@ C++多平台的键盘事件监听和发送库，起初来自[Global Hotkey](http
 ## 注意点
 
 - 通常来讲，需要管理员权限才可以正常运行。
-- 不要在`EventHandler`所属线程中执行`stop`函数。
+- 不要在 `EventHandler` 所属线程中执行 `stop` 函数。
