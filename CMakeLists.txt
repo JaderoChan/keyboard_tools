@@ -25,19 +25,22 @@ if(NOT DEFINED KEYBOARD_TOOLS_MASTER_PROJECT)
 endif()
 
 # Collect source files.
-set(SRC)
+set(SRC)    # Clear any existing variables that may exist.
 list(
     APPEND SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/keyboard_tools.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/uuid.cpp
 )
+
+set(PLATFORM_SRC)   # Clear any existing variables that may exist.
 if(WIN32)
-    file(GLOB SRC ${SRC} ${CMAKE_CURRENT_SOURCE_DIR}/src/win/*.cpp)
+    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/win/*.cpp)
 elseif(APPLE)
-    file(GLOB SRC ${SRC} ${CMAKE_CURRENT_SOURCE_DIR}/src/mac/*.cpp)
+    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/mac/*.cpp)
 elseif(LINUX)
-    file(GLOB SRC ${SRC} ${CMAKE_CURRENT_SOURCE_DIR}/src/linux/*.cpp)
+    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/linux/*.cpp)
 endif()
+list(APPEND SRC ${PLATFORM_SRC})
 
 option(KEYBOARD_TOOLS_WITH_KEYUTIL "Build with key utility" ON)
 if(KEYBOARD_TOOLS_WITH_KEYUTIL)
