@@ -107,8 +107,6 @@ bool isSupportBlockEventPropagation() noexcept
 {
 #if defined(KEYBOARD_TOOLS_WIN) || defined(KEYBOARD_TOOLS_MAC)
     return true;
-#elif defined(KEYBOARD_TOOLS_LINUX) && defined(KEYBOARD_TOOLS_LINUX_EVENT_BLOCKER)
-    return true;
 #else
     return false;
 #endif
