@@ -74,12 +74,6 @@ set(KEYBOARD_TOOLS_SHARED ${KEYBOARD_TOOLS_BUILD_SHARED})
 # Configure target #
 ####################
 
-if(WIN32)
-    message(STATUS "${KBDT_MSG_PREFIX} Windows platform detected.")
-    set(CMAKE_STATIC_LIBRARY_SUFFIX ".lib")
-    set(CMAKE_IMPORT_LIBRARY_SUFFIX ".lib")
-endif()
-
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX d)
 
 ########################
