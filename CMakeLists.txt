@@ -34,11 +34,11 @@ list(
 
 set(PLATFORM_SRC)   # Clear any existing variables that may exist.
 if(WIN32)
-    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/win/*.cpp)
+    file(GLOB PLATFORM_SRC CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/win/*.cpp)
 elseif(APPLE)
-    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/mac/*.cpp)
+    file(GLOB PLATFORM_SRC CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/mac/*.cpp)
 elseif(LINUX)
-    file(GLOB PLATFORM_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/linux/*.cpp)
+    file(GLOB PLATFORM_SRC CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/linux/*.cpp)
 endif()
 list(APPEND SRC ${PLATFORM_SRC})
 
@@ -149,7 +149,7 @@ install(
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/keyboard_tools/*.hpp)
+file(GLOB HEADERS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/keyboard_tools/*.hpp)
 if(NOT KEYBOARD_TOOLS_WITH_KEYUTIL)
     list(FILTER HEADERS EXCLUDE REGEX ".*key_utility\.hpp")
 endif()
