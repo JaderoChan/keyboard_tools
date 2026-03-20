@@ -9,12 +9,12 @@
 namespace kbdt
 {
 
+namespace details
+{
+
 void setRunSuccess();
 
 void setRunFail(int errorCode);
-
-namespace details
-{
 
 // The following functions have platform-specific implementations.
 

@@ -1,12 +1,12 @@
 #include <cstdio>
-#include <atomic>
 #include <condition_variable>
 #include <mutex>
 
 #include <keyboard_tools/keyboard_tools.hpp>
 #include <keyboard_tools/key_utility.hpp>
 
-std::atomic<bool> shouldClose{false};
+bool shouldClose = false;
+std::mutex shouldCloseMtx;
 std::condition_variable shouldCloseCv;
 
 using namespace kbdt;
@@ -22,7 +22,10 @@ static bool eventHandler(KeyEvent event)
         case Key_D:
             return false;
         case Key_Esc:
-            shouldClose.store(true);
+        {
+            std::lock_guard<std::mutex> locker(shouldCloseMtx);
+            shouldClose = true;
+        }
             shouldCloseCv.notify_one();
             return true;
         default:
@@ -57,9 +60,8 @@ int main()
     printf("The key A,B,C,D has been disabled.\n");
     printf("Press ESC to exit!\n\n");
 
-    std::mutex dummyMtx;
-    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
-    shouldCloseCv.wait(dummyLocker, [&]() { return shouldClose.load(); });
+    std::unique_lock<std::mutex> locker(shouldCloseMtx);
+    shouldCloseCv.wait(locker, []() { return shouldClose; });
 
     kbdtMgr.stop();
 

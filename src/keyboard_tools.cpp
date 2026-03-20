@@ -1,6 +1,5 @@
 #include <keyboard_tools/keyboard_tools.hpp>
 
-#include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
@@ -17,19 +16,23 @@ enum RunningState : uint8_t
     RS_TERMINATE
 };
 
-static std::mutex runAndStopMtx;
+static std::mutex runStopMtx;
 static std::thread workerThread;
+static RunningState runningState = RS_FREE;
+static std::mutex runningStateMtx;
 static std::condition_variable runningStateCv;
-static std::atomic<RunningState> runningState{RS_FREE};
-static std::atomic<int> runningRc{-1};
+static int runningRc = -1;
 
 static void threadWork()
 {
     details::work();
-    // If the work exits normally (running state is `RS_RUNNING`), set the state to `RS_FREE`.
-    // If the work exits due to an error (running state is `RS_TERMINATE`), preserve the error state.
-    if (runningState.load() == RS_RUNNING)
-        runningState.store(RS_FREE);
+    {
+        std::lock_guard<std::mutex> locker(runningStateMtx);
+        // If the work exits normally (running state is `RS_RUNNING`), set the state to `RS_FREE`.
+        // If the work exits due to an error (running state is `RS_TERMINATE`), preserve the error state.
+        if (runningState == RS_RUNNING)
+            runningState = RS_FREE;
+    }
     runningStateCv.notify_one();
 }
 
@@ -41,7 +44,7 @@ KeyboardToolsManager& KeyboardToolsManager::getInstance()
 
 int KeyboardToolsManager::run()
 {
-    std::lock_guard<std::mutex> locker(runAndStopMtx);
+    std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
     if (isRunning())
         return KBDT_RC_SUCCESS;
@@ -51,22 +54,28 @@ int KeyboardToolsManager::run()
         return rc;
 
     workerThread = std::thread(&threadWork);
-    workerThread.detach();
 
-    std::mutex dummyMtx;
-    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
-    // Wait for the worker thread to set the running state.
-    runningStateCv.wait(dummyLocker, [&]() { return runningState.load() != RS_FREE; });
-    if (runningState.load() == RS_TERMINATE)
-        runningState.store(RS_FREE);
-    rc = runningRc.load();
+    {
+        std::unique_lock<std::mutex> locker(runningStateMtx);
+        // Wait for the worker thread to set the running state.
+        runningStateCv.wait(locker, []() { return runningState != RS_FREE; });
+        if (runningState == RS_TERMINATE)
+            runningState = RS_FREE;
+        rc = runningRc;
+    }
+
+    if (rc != KBDT_RC_SUCCESS)
+    {
+        if (workerThread.joinable())
+            workerThread.join();
+    }
 
     return rc;
 }
 
 int KeyboardToolsManager::stop()
 {
-    std::lock_guard<std::mutex> locker(runAndStopMtx);
+    std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
     if (!isRunning())
         return KBDT_RC_SUCCESS;
@@ -75,10 +84,8 @@ int KeyboardToolsManager::stop()
     if (rc != KBDT_RC_SUCCESS)
         return rc;
 
-    std::mutex dummyMtx;
-    std::unique_lock<std::mutex> dummyLocker(dummyMtx);
-    // Wait for the worker thread to exit and transition to free state.
-    runningStateCv.wait(dummyLocker, [&]() { return runningState.load() == RS_FREE; });
+    if (workerThread.joinable())
+        workerThread.join();
 
     return KBDT_RC_SUCCESS;
 }
@@ -90,7 +97,8 @@ int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
 
 bool KeyboardToolsManager::isRunning() noexcept
 {
-    return runningState.load() == RS_RUNNING;
+    std::lock_guard<std::mutex> locker(runningStateMtx);
+    return runningState == RS_RUNNING;
 }
 
 size_t sendEvents(const std::vector<KeyEvent>& events)
@@ -112,17 +120,26 @@ bool isSupportBlockEventPropagation() noexcept
 #endif
 }
 
+namespace details
+{
+
 void setRunSuccess()
 {
-    runningRc.store(KBDT_RC_SUCCESS);
-    runningState.store(RS_RUNNING);
+    {
+        std::lock_guard<std::mutex> locker(runningStateMtx);
+        runningRc = KBDT_RC_SUCCESS;
+        runningState = RS_RUNNING;
+    }
     runningStateCv.notify_one();
 }
 
 void setRunFail(int errorCode)
 {
-    runningRc.store(errorCode);
-    runningState.store(RS_TERMINATE);
+    std::lock_guard<std::mutex> locker(runningStateMtx);
+    runningRc = errorCode;
+    runningState = RS_TERMINATE;
 }
+
+} // namespace deatils
 
 } // namespace kbdt
