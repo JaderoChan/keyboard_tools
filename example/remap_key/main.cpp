@@ -62,8 +62,10 @@ int main()
     printf("The key A has been remapped to B and the key B has been remapped to A.\n");
     printf("Press ESC to exit!\n\n");
 
-    std::unique_lock<std::mutex> locker(shouldCloseMtx);
-    shouldCloseCv.wait(locker, []() { return shouldClose; });
+    {
+        std::unique_lock<std::mutex> locker(shouldCloseMtx);
+        shouldCloseCv.wait(locker, []() { return shouldClose; });
+    }
 
     kbdtMgr.stop();
 

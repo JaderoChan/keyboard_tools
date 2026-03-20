@@ -60,8 +60,10 @@ int main()
     printf("The key A,B,C,D has been disabled.\n");
     printf("Press ESC to exit!\n\n");
 
-    std::unique_lock<std::mutex> locker(shouldCloseMtx);
-    shouldCloseCv.wait(locker, []() { return shouldClose; });
+    {
+        std::unique_lock<std::mutex> locker(shouldCloseMtx);
+        shouldCloseCv.wait(locker, []() { return shouldClose; });
+    }
 
     kbdtMgr.stop();
 
