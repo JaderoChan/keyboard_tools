@@ -22,7 +22,7 @@ static bool eventHandler(KeyEvent event)
             printf("Key pressed: %s\n", keyToStr(key));
             if (key == Key_Esc)
             {
-                shouldClose = true;
+                shouldClose.store(true);
                 shouldCloseCv.notify_one();
             }
             break;

@@ -52,7 +52,7 @@ static bool eventHandler(KeyEvent event)
 
             if (key == Key_Esc)
             {
-                shouldClose = true;
+                shouldClose.store(true);
                 shouldCloseCv.notify_one();
             }
 

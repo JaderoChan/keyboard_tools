@@ -24,7 +24,7 @@ static bool eventHandler(KeyEvent event)
             sendEvent(KeyEvent{event.type, keyToNativeKey(Key_A)});
             return false;
         case Key_Esc:
-            shouldClose = true;
+            shouldClose.store(true);
             shouldCloseCv.notify_one();
             return true;
         default:

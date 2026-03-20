@@ -1,7 +1,6 @@
 #include <keyboard_tools_details.hpp>
 
 #include <string>
-#include <atomic>
 #include <thread>
 #include <list>
 #include <mutex>

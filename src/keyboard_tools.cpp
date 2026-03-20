@@ -28,8 +28,8 @@ static void threadWork()
     details::work();
     // If the work exits normally (running state is `RS_RUNNING`), set the state to `RS_FREE`.
     // If the work exits due to an error (running state is `RS_TERMINATE`), preserve the error state.
-    if (runningState == RS_RUNNING)
-        runningState = RS_FREE;
+    if (runningState.load() == RS_RUNNING)
+        runningState.store(RS_FREE);
     runningStateCv.notify_one();
 }
 
@@ -56,10 +56,10 @@ int KeyboardToolsManager::run()
     std::mutex dummyMtx;
     std::unique_lock<std::mutex> dummyLocker(dummyMtx);
     // Wait for the worker thread to set the running state.
-    runningStateCv.wait(dummyLocker, [&]() { return runningState != RS_FREE; });
-    if (runningState == RS_TERMINATE)
-        runningState = RS_FREE;
-    rc = runningRc;
+    runningStateCv.wait(dummyLocker, [&]() { return runningState.load() != RS_FREE; });
+    if (runningState.load() == RS_TERMINATE)
+        runningState.store(RS_FREE);
+    rc = runningRc.load();
 
     return rc;
 }
@@ -78,7 +78,7 @@ int KeyboardToolsManager::stop()
     std::mutex dummyMtx;
     std::unique_lock<std::mutex> dummyLocker(dummyMtx);
     // Wait for the worker thread to exit and transition to free state.
-    runningStateCv.wait(dummyLocker, [&]() { return runningState == RS_FREE; });
+    runningStateCv.wait(dummyLocker, [&]() { return runningState.load() == RS_FREE; });
 
     return KBDT_RC_SUCCESS;
 }
@@ -90,7 +90,7 @@ int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
 
 bool KeyboardToolsManager::isRunning() noexcept
 {
-    return runningState == RS_RUNNING;
+    return runningState.load() == RS_RUNNING;
 }
 
 size_t sendEvents(const std::vector<KeyEvent>& events)
@@ -114,15 +114,15 @@ bool isSupportBlockEventPropagation() noexcept
 
 void setRunSuccess()
 {
-    runningRc = KBDT_RC_SUCCESS;
-    runningState = RS_RUNNING;
+    runningRc.store(KBDT_RC_SUCCESS);
+    runningState.store(RS_RUNNING);
     runningStateCv.notify_one();
 }
 
 void setRunFail(int errorCode)
 {
-    runningRc = errorCode;
-    runningState = RS_TERMINATE;
+    runningRc.store(errorCode);
+    runningState.store(RS_TERMINATE);
 }
 
 } // namespace kbdt

@@ -22,7 +22,7 @@ static bool eventHandler(KeyEvent event)
         case Key_D:
             return false;
         case Key_Esc:
-            shouldClose = true;
+            shouldClose.store(true);
             shouldCloseCv.notify_one();
             return true;
         default:

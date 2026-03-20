@@ -49,7 +49,7 @@ int stopWork()
 
 int setEventHandler(KeyEventHandler handler)
 {
-    eventHandler = handler;
+    eventHandler.store(handler);
     return KBDT_RC_SUCCESS;
 }
 
@@ -62,7 +62,7 @@ void work()
         return;
     }
 
-    runLoop = currentRunLoop;
+    runLoop.store(currentRunLoop);
 
     CGEventMask eventMask =
         CGEventMaskBit(kCGEventKeyDown) |
@@ -89,7 +89,7 @@ void work()
     if (!runLoopSource)
     {
         CFRelease(eventTap);
-        runLoop = nullptr;
+        runLoop.store(nullptr);
         setRunFail(KBDT_RC_FAIL);
         return;
     }
@@ -103,8 +103,8 @@ void work()
     CFRelease(eventTap);
     CFRelease(runLoopSource);
 
-    eventHandler = nullptr;
-    runLoop = nullptr;
+    eventHandler.store(nullptr);
+    runLoop.store(nullptr);
 }
 
 } // namespace details
