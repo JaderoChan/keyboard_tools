@@ -33,7 +33,7 @@
 #include "defines.hpp"
 #include "types.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 class KEYBOARD_TOOLS_API KeyboardToolsManager
@@ -43,7 +43,7 @@ public:
 
     /**
      * @brief Run the keyboard tools service.
-     * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @return `KBT_RC_SUCCESS` on success, error code on failure.
      * @note thread-safe
      * @sa stop()
      */
@@ -51,7 +51,7 @@ public:
 
     /**
      * @brief Stop the keyboard tools service.
-     * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @return `KBT_RC_SUCCESS` on success, error code on failure.
      * @note Can be executed safely in threads other than worker threads.
      * @attention Do not call this function from within the event handler thread.
      * @sa run()
@@ -61,7 +61,7 @@ public:
     /**
      * @brief Set the key event handler callback function.
      * @param handler Function for handling key events.
-     * @return `KBDT_RC_SUCCESS` on success, error code on failure.
+     * @return `KBT_RC_SUCCESS` on success, error code on failure.
      * @note It only be set while service is running.
      * @note thread-safe
      */
@@ -109,6 +109,6 @@ bool sendEvent(const KeyEvent& event);
  */
 bool isSupportBlockEventPropagation() noexcept;
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_HPP

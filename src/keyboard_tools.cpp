@@ -6,7 +6,7 @@
 
 #include "keyboard_tools_details.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 enum RunningState : uint8_t
@@ -47,10 +47,10 @@ int KeyboardToolsManager::run()
     std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
     if (isRunning())
-        return KBDT_RC_SUCCESS;
+        return KBT_RC_SUCCESS;
 
     int rc = details::initialize();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
         return rc;
 
     workerThread = std::thread(&threadWork);
@@ -64,7 +64,7 @@ int KeyboardToolsManager::run()
         rc = runningRc;
     }
 
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
     {
         if (workerThread.joinable())
             workerThread.join();
@@ -78,16 +78,16 @@ int KeyboardToolsManager::stop()
     std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
     if (!isRunning())
-        return KBDT_RC_SUCCESS;
+        return KBT_RC_SUCCESS;
 
     int rc = details::stopWork();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
         return rc;
 
     if (workerThread.joinable())
         workerThread.join();
 
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
@@ -127,7 +127,7 @@ void setRunSuccess()
 {
     {
         std::lock_guard<std::mutex> locker(runningStateMtx);
-        runningRc = KBDT_RC_SUCCESS;
+        runningRc = KBT_RC_SUCCESS;
         runningState = RS_RUNNING;
     }
     runningStateCv.notify_one();

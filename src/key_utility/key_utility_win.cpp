@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-namespace kbdt
+namespace kbt
 {
 
 KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept

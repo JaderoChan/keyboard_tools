@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

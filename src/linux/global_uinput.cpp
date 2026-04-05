@@ -10,7 +10,7 @@
 #define UINT32_LOW16(x)     static_cast<uint16_t>((x) & 0xFFFF)
 #define UINT32_HIGH16(x)    static_cast<uint16_t>(((x) >> 16) & 0xFFFF)
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

@@ -2,7 +2,7 @@
 
 #include <random>
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

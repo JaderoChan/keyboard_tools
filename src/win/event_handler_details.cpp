@@ -5,7 +5,7 @@
 #include <uuid.hpp>
 #include "event_converter.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details
@@ -33,20 +33,20 @@ static LRESULT WINAPI LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lPar
 
 int initialize()
 {
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 int stopWork()
 {
     if (PostThreadMessageA(workerThreadId, WM_DESTROY, 0, 0) != 0)
-        return KBDT_RC_SUCCESS;
+        return KBT_RC_SUCCESS;
     return GetLastError();
 }
 
 int setEventHandler(KeyEventHandler handler)
 {
     if (PostThreadMessageA(workerThreadId, WM_SET_EVENT_HANDLER, reinterpret_cast<WPARAM>(handler), 0) != 0)
-        return KBDT_RC_SUCCESS;
+        return KBT_RC_SUCCESS;
     return GetLastError();
 }
 

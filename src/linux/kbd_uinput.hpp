@@ -7,7 +7,7 @@
 
 #include <keyboard_tools/types.hpp>
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

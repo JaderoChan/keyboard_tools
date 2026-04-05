@@ -9,14 +9,14 @@
 #include <uuid.hpp>
 #include "event_converter.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details
 {
 
 // Return code for failed operation.
-#define KBDT_RC_FAIL       -1
+#define KBT_RC_FAIL       -1
 
 std::atomic<KeyEventHandler> eventHandler{nullptr};
 static std::atomic<CFRunLoopRef> runLoop{nullptr};
@@ -36,7 +36,7 @@ static CGEventRef keyboardTapCallback(CGEventTapProxy proxy, CGEventType type, C
 
 int initialize()
 {
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 int stopWork()
@@ -44,13 +44,13 @@ int stopWork()
     auto loop = runLoop.load();
     if (loop)
         CFRunLoopStop(loop);
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 int setEventHandler(KeyEventHandler handler)
 {
     eventHandler.store(handler);
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 void work()
@@ -58,7 +58,7 @@ void work()
     auto currentRunLoop = CFRunLoopGetCurrent();
     if (!currentRunLoop)
     {
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KBT_RC_FAIL);
         return;
     }
 
@@ -80,7 +80,7 @@ void work()
     if (!eventTap)
     {
         runLoop = nullptr;
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KBT_RC_FAIL);
         return;
     }
 
@@ -90,7 +90,7 @@ void work()
     {
         CFRelease(eventTap);
         runLoop.store(nullptr);
-        setRunFail(KBDT_RC_FAIL);
+        setRunFail(KBT_RC_FAIL);
         return;
     }
 

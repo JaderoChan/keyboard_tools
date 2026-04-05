@@ -2,7 +2,7 @@
 
 #include <Carbon/Carbon.h>
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

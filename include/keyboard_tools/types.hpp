@@ -4,7 +4,7 @@
 #include <cstdint>  // uint8_t
 #include <cstddef>
 
-namespace kbdt
+namespace kbt
 {
 
 /** @brief Key event types. */
@@ -28,6 +28,6 @@ struct KeyEvent
  */
 using KeyEventHandler = bool (*)(KeyEvent);
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_TYPES_HPP

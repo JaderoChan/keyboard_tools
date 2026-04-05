@@ -2,7 +2,7 @@
 
 #include <linux/input-event-codes.h>
 
-namespace kbdt
+namespace kbt
 {
 
 KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
@@ -349,4 +349,4 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
     }
 }
 
-} // namespace kbdt
+} // namespace kbt

@@ -3,7 +3,7 @@
 #include <cctype>   // isspace, isalnum, toupper
 #include <cstddef>  // size_t
 
-namespace kbdt
+namespace kbt
 {
 
 #define IS_SPACE(c) std::isspace(static_cast<unsigned char>(c))
@@ -425,4 +425,4 @@ KEYBOARD_TOOLS_API Key keyFromStr(const std::string& str) noexcept
     return static_cast<Key>(0);
 }
 
-} // namespace kbdt
+} // namespace kbt

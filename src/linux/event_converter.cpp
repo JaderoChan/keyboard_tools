@@ -1,6 +1,6 @@
 #include "event_converter.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details

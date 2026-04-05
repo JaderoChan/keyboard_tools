@@ -18,7 +18,7 @@
 #include "event_converter.hpp"
 #include "global_uinput.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details
@@ -100,7 +100,7 @@ static int emitWorkEvent(const WorkEvent& workEvent)
         workEvents.pop_back();
         return errno;
     }
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 static int setupWorkEventFd()
@@ -115,7 +115,7 @@ static int setupWorkEventFd()
     pollFd.revents = 0;
     watchedFds[0] = pollFd;
 
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 static void cleanupWorkEventFd()
@@ -143,7 +143,7 @@ static int setupInotifyFd()
     pollFd.revents = 0;
     watchedFds[1] = pollFd;
 
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 static void cleanupInotifyFd()
@@ -215,7 +215,7 @@ static int setupEvdevFds()
     }
     closedir(dir);
 
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 static void cleanupEvdevFds()
@@ -231,25 +231,25 @@ static void cleanupEvdevFds()
 static int setupAll()
 {
     int rc = setupWorkEventFd();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
         return rc;
 
     rc = setupInotifyFd();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
     {
         cleanupWorkEventFd();
         return rc;
     }
 
     rc = setupEvdevFds();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
     {
         cleanupInotifyFd();
         cleanupWorkEventFd();
         return rc;
     }
 
-    return KBDT_RC_SUCCESS;
+    return KBT_RC_SUCCESS;
 }
 
 static void cleanupAll()

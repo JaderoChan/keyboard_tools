@@ -9,7 +9,7 @@ bool shouldClose = false;
 std::mutex shouldCloseMtx;
 std::condition_variable shouldCloseCv;
 
-using namespace kbdt;
+using namespace kbt;
 
 static bool eventHandler(KeyEvent event)
 {
@@ -46,14 +46,14 @@ int main()
     auto& kbdtMgr = KeyboardToolsManager::getInstance();
 
     int rc = kbdtMgr.run();
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
     {
         printf("Failed to run the keyboard tools. Error code: %d.\n", rc);
         exit(1);
     }
 
     rc = kbdtMgr.setEventHandler(&eventHandler);
-    if (rc != KBDT_RC_SUCCESS)
+    if (rc != KBT_RC_SUCCESS)
     {
         printf("Failed to set the event handler. Error code: %d.\n", rc);
         exit(1);

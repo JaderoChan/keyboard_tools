@@ -6,7 +6,7 @@
 
 #include "defines.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 enum Key : uint32_t
@@ -201,6 +201,6 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept;
 
 KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept;
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_KEY_UTILITY_HPP

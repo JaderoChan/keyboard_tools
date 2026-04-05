@@ -5,7 +5,7 @@
 
 #include "kbd_uinput.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details
