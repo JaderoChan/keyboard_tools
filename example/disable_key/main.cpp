@@ -46,7 +46,7 @@ int main()
     int rc = eventHookService.run();
     if (rc != KBT_RC_SUCCESS)
     {
-        printf("Failed to run the keyboard tools. Error code: %d.\n", rc);
+        printf("Failed to run the keyboard event hook service. Error code: %d.\n", rc);
         exit(1);
     }
 
