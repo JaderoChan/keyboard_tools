@@ -26,7 +26,7 @@ static LRESULT WINAPI LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lPar
             return CallNextHookEx(nullptr, nCode, wParam, lParam);
         KeyEvent event = keyEventFromParam(wParam, lParam);
         if (!eventHandler(event))
-            return true;
+            return 1;
     }
     return CallNextHookEx(nullptr, nCode, wParam, lParam);
 }
