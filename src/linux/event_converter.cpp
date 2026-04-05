@@ -25,4 +25,4 @@ KeyEvent keyEventFromInputEvent(const struct input_event& ie)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

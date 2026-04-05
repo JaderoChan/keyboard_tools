@@ -21,6 +21,6 @@ KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent);
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_MAC_EVENT_CONVERTER_HPP

@@ -53,4 +53,4 @@ KeyEvent keyEventFromParam(WPARAM wParam, LPARAM lParam)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

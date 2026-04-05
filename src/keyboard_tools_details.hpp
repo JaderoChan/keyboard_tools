@@ -56,6 +56,6 @@ size_t sendEvents(const std::vector<KeyEvent>& events);
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_DETAILS_HPP

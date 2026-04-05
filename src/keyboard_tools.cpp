@@ -36,13 +36,13 @@ static void threadWork()
     runningStateCv.notify_one();
 }
 
-KeyboardToolsManager& KeyboardToolsManager::getInstance()
+EventHookService& EventHookService::getInstance()
 {
-    static KeyboardToolsManager instance;
+    static EventHookService instance;
     return instance;
 }
 
-int KeyboardToolsManager::run()
+int EventHookService::run()
 {
     std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
@@ -73,7 +73,7 @@ int KeyboardToolsManager::run()
     return rc;
 }
 
-int KeyboardToolsManager::stop()
+int EventHookService::stop()
 {
     std::lock_guard<std::mutex> runStopLocker(runStopMtx);
 
@@ -90,12 +90,12 @@ int KeyboardToolsManager::stop()
     return KBT_RC_SUCCESS;
 }
 
-int KeyboardToolsManager::setEventHandler(KeyEventHandler handler)
+int EventHookService::setEventHandler(KeyEventHandler handler)
 {
     return details::setEventHandler(handler);
 }
 
-bool KeyboardToolsManager::isRunning() noexcept
+bool EventHookService::isRunning() noexcept
 {
     std::lock_guard<std::mutex> locker(runningStateMtx);
     return runningState == RS_RUNNING;
@@ -142,4 +142,4 @@ void setRunFail(int errorCode)
 
 } // namespace deatils
 
-} // namespace kbdt
+} // namespace kbt

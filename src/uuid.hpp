@@ -13,6 +13,6 @@ uint64_t uuid();
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_UUID_HPP

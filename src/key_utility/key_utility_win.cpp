@@ -277,4 +277,4 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
     }
 }
 
-} // namespace kbdt
+} // namespace kbt

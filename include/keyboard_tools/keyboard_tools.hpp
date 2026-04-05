@@ -36,13 +36,13 @@
 namespace kbt
 {
 
-class KEYBOARD_TOOLS_API KeyboardToolsManager
+class KEYBOARD_TOOLS_API EventHookService
 {
 public:
-    static KeyboardToolsManager& getInstance();
+    static EventHookService& getInstance();
 
     /**
-     * @brief Run the keyboard tools service.
+     * @brief Run the keyboard event hook service.
      * @return `KBT_RC_SUCCESS` on success, error code on failure.
      * @note thread-safe
      * @sa stop()
@@ -50,7 +50,7 @@ public:
     int run();
 
     /**
-     * @brief Stop the keyboard tools service.
+     * @brief Stop the keyboard event hook service.
      * @return `KBT_RC_SUCCESS` on success, error code on failure.
      * @note Can be executed safely in threads other than worker threads.
      * @attention Do not call this function from within the event handler thread.
@@ -68,17 +68,17 @@ public:
     int setEventHandler(KeyEventHandler handler);
 
     /**
-     * @brief Check if the keyboard tools service is running.
+     * @brief Check if the keyboard event hook service is running.
      * @return True if the service is running, false otherwise.
      * @note thread-safe
      */
     bool isRunning() noexcept;
 
 private:
-    KeyboardToolsManager() = default;
-    ~KeyboardToolsManager() = default;
-    KeyboardToolsManager(const KeyboardToolsManager&) = delete;
-    KeyboardToolsManager& operator=(const KeyboardToolsManager&) = delete;
+    EventHookService() = default;
+    ~EventHookService() = default;
+    EventHookService(const EventHookService&) = delete;
+    EventHookService& operator=(const EventHookService&) = delete;
 };
 
 /**

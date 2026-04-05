@@ -21,6 +21,6 @@ KeyEvent keyEventFromParam(WPARAM wParam, LPARAM lParam);
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_WIN_EVENT_CONVERTER_HPP

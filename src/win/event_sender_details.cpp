@@ -28,4 +28,4 @@ size_t sendEvents(const std::vector<KeyEvent>& events)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

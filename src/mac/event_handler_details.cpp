@@ -109,4 +109,4 @@ void work()
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

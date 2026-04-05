@@ -24,4 +24,4 @@ uint64_t uuid()
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

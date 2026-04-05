@@ -86,4 +86,4 @@ KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

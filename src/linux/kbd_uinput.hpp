@@ -39,6 +39,6 @@ private:
 
 } // namespace details
 
-} // namespac kbdt
+} // namespac kbt
 
 #endif // !KEYBOARD_TOOLS_KBD_UINPUT_HPP

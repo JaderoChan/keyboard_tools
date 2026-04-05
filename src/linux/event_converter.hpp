@@ -17,6 +17,6 @@ KeyEvent keyEventFromInputEvent(const struct input_event& ie);
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_LINUX_EVENT_CONVERTER_HPP

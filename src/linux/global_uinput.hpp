@@ -22,6 +22,6 @@ bool isInstanceKbdUInput(int fd);
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
 
 #endif // !KEYBOARD_TOOLS_GLOBAL_UINPUT_HPP

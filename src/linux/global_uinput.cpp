@@ -45,4 +45,4 @@ bool isInstanceKbdUInput(int fd)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

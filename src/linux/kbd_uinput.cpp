@@ -157,4 +157,4 @@ size_t KbdUInput::sendEvents(const std::vector<KeyEvent>& events)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt

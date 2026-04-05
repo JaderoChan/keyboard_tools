@@ -6,7 +6,7 @@
 #include <uuid.hpp>
 #include "event_converter.hpp"
 
-namespace kbdt
+namespace kbt
 {
 
 namespace details
@@ -30,4 +30,4 @@ size_t sendEvents(const std::vector<KeyEvent>& events)
 
 } // namespace details
 
-} // namespace kbdt
+} // namespace kbt
