@@ -44,16 +44,16 @@ static bool eventHandler(KeyEvent event)
 
 int main()
 {
-    auto& eventHookMgr = EventHookService::getInstance();
+    auto& eventHookService = EventHookService::getInstance();
 
-    int rc = eventHookMgr.run();
+    int rc = eventHookService.run();
     if (rc != KBT_RC_SUCCESS)
     {
         printf("Failed to run the keyboard tools. Error code: %d.\n", rc);
         exit(1);
     }
 
-    rc = eventHookMgr.setEventHandler(&eventHandler);
+    rc = eventHookService.setEventHandler(&eventHandler);
     if (rc != KBT_RC_SUCCESS)
     {
         printf("Failed to set the event handler. Error code: %d.\n", rc);
@@ -67,7 +67,7 @@ int main()
         shouldCloseCv.wait(locker, []() { return shouldClose; });
     }
 
-    eventHookMgr.stop();
+    eventHookService.stop();
 
     printf("Exit successfully!\n");
     return 0;
