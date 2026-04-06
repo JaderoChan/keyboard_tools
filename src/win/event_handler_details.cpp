@@ -68,7 +68,7 @@ void work()
     // This can ensure that the `PostThreadMessage()` be performed only when the message queue exists.
     setRunSuccess();
 
-    // Retrieves only messages on the current thread's message queue whose hwnd value is -1 (Only thread message).
+    // Retrieves only messages on the current thread's message queue whose hwnd value is NULL.
     // In this case the thread message as posted by `PostThreadMessage()`.
     while (GetMessageA(&msg, reinterpret_cast<HWND>(static_cast<intptr_t>(-1)), 0, 0) != 0)
     {
