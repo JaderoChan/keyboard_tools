@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_TOOLS_DEFINES_HPP
 #define KEYBOARD_TOOLS_DEFINES_HPP
 
+#include <keyboard_tools/config.hpp>
+
 #ifdef _WIN32
     #define KEYBOARD_TOOLS_WIN
 #elif defined(__APPLE__)
