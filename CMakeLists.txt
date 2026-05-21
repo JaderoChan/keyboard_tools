@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(KBT_MSG_PREFIX "[Keyboard Tools]")
 
-set(keyboard_tools_VERSION ${PROJECT_VERSION} CACHE STRING "keyboard_tools version" FORCE)
-
 # Set the default CMAKE_BUILD_TYPE to Release.
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
