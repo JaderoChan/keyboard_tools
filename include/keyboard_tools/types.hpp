@@ -14,6 +14,12 @@ enum KeyEventType : uint8_t
     KET_PRESSED     ///< Key pressed event
 };
 
+enum KeyState : uint8_t
+{
+    KS_RELEASED,
+    KS_PRESSED
+};
+
 /** @brief Key event structure. */
 struct KeyEvent
 {

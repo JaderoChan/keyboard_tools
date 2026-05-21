@@ -111,6 +111,11 @@ bool sendEvent(const KeyEvent& event)
     return sendEvents({event}) == 1;
 }
 
+KeyState getKeyState(uint32_t nativeKey)
+{
+    return details::getKeyState(nativeKey);
+}
+
 bool isSupportBlockEventPropagation() noexcept
 {
 #if defined(KEYBOARD_TOOLS_WIN) || defined(KEYBOARD_TOOLS_MAC)

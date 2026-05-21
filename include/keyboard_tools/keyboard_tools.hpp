@@ -82,12 +82,18 @@ private:
 };
 
 /**
+ * @brief Query the status of the specified key.
+ * @note Reentrant
+ */
+KeyState getKeyState(uint32_t nativeKey);
+
+/**
  * @brief Send multiple key events.
  * @param events List of key events to send.
  * @return Number of events successfully sent.
  * @note Events sent through this function will not be received by the event handler.
  * @note Ensure that event sending is atomic, that is, event lists sent by different threads will not be interleaved.
- * @note thread-safe
+ * @note Reentrant
  * @sa sendEvent()
  */
 size_t sendEvents(const std::vector<KeyEvent>& events);
@@ -97,7 +103,7 @@ size_t sendEvents(const std::vector<KeyEvent>& events);
  * @param event Key event to send.
  * @return True if the event been sent successfully, false otherwise.
  * @note Events sent through this function will not be received by the event handler.
- * @note thread-safe
+ * @note Reentrant
  * @sa sendEvents()
  */
 bool sendEvent(const KeyEvent& event);
@@ -105,7 +111,7 @@ bool sendEvent(const KeyEvent& event);
 /**
  * @brief Check whether blocking the propagation of key events is supported.
  * @return True if blocking is supported, false otherwise.
- * @note thread-safe
+ * @note Reentrant
  */
 bool isSupportBlockEventPropagation() noexcept;
 
