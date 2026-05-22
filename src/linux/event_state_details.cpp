@@ -124,10 +124,9 @@ KeyState getKeyState(uint32_t nativeKey)
     if (cache.needsRefresh || cache.drainInotify())
         cache.refresh();
 
-    uint8_t keyStateBits[KEY_MAX / 8 + 1];
+    uint8_t keyStateBits[KEY_MAX / 8 + 1] = {0};
     for (int fd : cache.fds)
     {
-        memset(keyStateBits, 0, sizeof(keyStateBits));
         int rc = ioctl(fd, EVIOCGKEY(sizeof(keyStateBits)), keyStateBits);
         if (rc == -1)
         {
