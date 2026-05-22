@@ -95,6 +95,7 @@ int main()
         exit(1);
     }
 
+    printf("Key in 'pi' to input the 3.1415926 after 'pi'.\n");
     printf("Press ESC to exit!\n\n");
 
     {
