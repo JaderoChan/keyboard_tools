@@ -85,8 +85,9 @@ private:
  * @brief Query the status of the specified key.
  * @note Reentrant on Windows and MacOS, thread-sfae on Linux.
  * @note This function has poor performance on the Linux platform, so use it with caution in hot loops.
+ * @attention Attempt get a invalid key state is UB.
  */
-KeyState getKeyState(uint32_t nativeKey);
+KeyState getKeyState(int32_t nativeKey);
 
 /**
  * @brief Send multiple key events.
@@ -95,6 +96,7 @@ KeyState getKeyState(uint32_t nativeKey);
  * @note Events sent through this function will not be received by the event handler.
  * @note Ensure that event sending is atomic, that is, event lists sent by different threads will not be interleaved.
  * @note Reentrant
+ * @attention Attempt send event with a invalid key is UB.
  * @sa sendEvent()
  */
 size_t sendEvents(const std::vector<KeyEvent>& events);
@@ -105,6 +107,7 @@ size_t sendEvents(const std::vector<KeyEvent>& events);
  * @return True if the event been sent successfully, false otherwise.
  * @note Events sent through this function will not be received by the event handler.
  * @note Reentrant
+ * @attention Attempt send event with a invalid key is UB.
  * @sa sendEvents()
  */
 bool sendEvent(const KeyEvent& event);

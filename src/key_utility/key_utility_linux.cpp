@@ -5,7 +5,7 @@
 namespace kbt
 {
 
-KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
+KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
 {
     switch (key)
     {
@@ -162,25 +162,28 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
         case Key_Angle_Bracket:     return KEY_102ND;     // Need to check
 
         // Modifier keys
-        case Key_Meta:          return 0;   // Not supported
-        case Key_Meta_Left:     return KEY_LEFTMETA;
-        case Key_Meta_Right:    return KEY_RIGHTMETA;
-        case Key_Ctrl:          return 0;   // Not supported
-        case Key_Ctrl_Left:     return KEY_LEFTCTRL;
-        case Key_Ctrl_Right:    return KEY_RIGHTCTRL;
-        case Key_Alt:           return 0;   // Not supported
-        case Key_Alt_Left:      return KEY_LEFTALT;
-        case Key_Alt_Right:     return KEY_RIGHTALT;
-        case Key_Shift:         return 0;   // Not supported
-        case Key_Shift_Left:    return KEY_LEFTSHIFT;
-        case Key_Shift_Right:   return KEY_RIGHTSHIFT;
+        case Key_Meta:              return -1;  // Not supported
+        case Key_Meta_Left:         return KEY_LEFTMETA;
+        case Key_Meta_Right:        return KEY_RIGHTMETA;
+        case Key_Ctrl:              return -1;  // Not supported
+        case Key_Ctrl_Left:         return KEY_LEFTCTRL;
+        case Key_Ctrl_Right:        return KEY_RIGHTCTRL;
+        case Key_Alt:               return -1;  // Not supported
+        case Key_Alt_Left:          return KEY_LEFTALT;
+        case Key_Alt_Right:         return KEY_RIGHTALT;
+        case Key_Shift:             return -1;  // Not supported
+        case Key_Shift_Left:        return KEY_LEFTSHIFT;
+        case Key_Shift_Right:       return KEY_RIGHTSHIFT;
 
-        default:                    return 0;
+        default:                    return -1;
     }
 }
 
-KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
+KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept
 {
+    if (nativeKey < 0)
+        return Key_None;
+
     switch (nativeKey)
     {
         // Number keys
@@ -345,7 +348,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
         case KEY_LEFTSHIFT:         return Key_Shift_Left;
         case KEY_RIGHTSHIFT:        return Key_Shift_Right;
 
-        default:                    return static_cast<Key>(0);
+        default:                    return Key_None;
     }
 }
 

@@ -111,7 +111,7 @@ bool sendEvent(const KeyEvent& event)
     return sendEvents({event}) == 1;
 }
 
-KeyState getKeyState(uint32_t nativeKey)
+KeyState getKeyState(int32_t nativeKey)
 {
     return details::getKeyState(nativeKey);
 }

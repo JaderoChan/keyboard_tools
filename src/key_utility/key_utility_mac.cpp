@@ -5,7 +5,7 @@
 namespace kbt
 {
 
-KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
+KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
 {
     switch (key)
     {
@@ -110,7 +110,7 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
         case Key_Numpad_Multiply:   return kVK_ANSI_KeypadMultiply;
         case Key_Numpad_Divide:     return kVK_ANSI_KeypadDivide;
         case Key_Numpad_Decimal:    return kVK_ANSI_KeypadDecimal;
-        case Key_Numpad_Separator:  return 0;   // Not supported
+        case Key_Numpad_Separator:  return -1;  // Not supported
         case Key_Numpad_Equal:      return kVK_ANSI_KeypadEquals;
         case Key_Numpad_Enter:      return kVK_ANSI_KeypadEnter;
 
@@ -143,28 +143,31 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
         case Key_Period:            return kVK_ANSI_Period;
         case Key_Slash:             return kVK_ANSI_Slash;
         case Key_Backslash:         return kVK_ANSI_Backslash;
-        case Key_Angle_Bracket:     return 0;   // Not supported
+        case Key_Angle_Bracket:     return -1;  // Not supported
 
         // Modifiers keys
-        case Key_Meta:          return kVK_Command;
-        case Key_Meta_Left:     return 0;   // Not supported
-        case Key_Meta_Right:    return kVK_RightCommand;
-        case Key_Ctrl:          return kVK_Control;
-        case Key_Ctrl_Left:     return 0;   // Not supported
-        case Key_Ctrl_Right:    return kVK_RightControl;
-        case Key_Alt:           return kVK_Option;
-        case Key_Alt_Left:      return 0;   // Not supported
-        case Key_Alt_Right:     return kVK_RightOption;
-        case Key_Shift:         return kVK_Shift;
-        case Key_Shift_Left:    return 0;   // Not supported
-        case Key_Shift_Right:   return kVK_RightShift;
+        case Key_Meta:              return kVK_Command;
+        case Key_Meta_Left:         return -1;  // Not supported
+        case Key_Meta_Right:        return kVK_RightCommand;
+        case Key_Ctrl:              return kVK_Control;
+        case Key_Ctrl_Left:         return -1;  // Not supported
+        case Key_Ctrl_Right:        return kVK_RightControl;
+        case Key_Alt:               return kVK_Option;
+        case Key_Alt_Left:          return -1;  // Not supported
+        case Key_Alt_Right:         return kVK_RightOption;
+        case Key_Shift:             return kVK_Shift;
+        case Key_Shift_Left:        return -1;  // Not supported
+        case Key_Shift_Right:       return kVK_RightShift;
 
-        default:                    return 0;
+        default:                    return -1;
     }
 }
 
-KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
+KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept
 {
+    if (nativeKey < 0)
+        return Key_None;
+
     switch (nativeKey)
     {
         // Number keys
@@ -307,7 +310,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
         case kVK_Shift:                 return Key_Shift;
         case kVK_RightShift:            return Key_Shift_Right;
 
-        default:                        return static_cast<Key>(0);
+        default:                        return Key_None;
     }
 }
 

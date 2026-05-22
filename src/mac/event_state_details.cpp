@@ -8,7 +8,7 @@ namespace kbt
 namespace details
 {
 
-KeyState getKeyState(uint32_t nativeKey)
+KeyState getKeyState(int32_t nativeKey)
 {
     bool pressed = CGEventSourceKeyState(
         kCGEventSourceStateCombinedSessionState,

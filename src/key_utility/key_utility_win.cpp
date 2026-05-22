@@ -5,7 +5,7 @@
 namespace kbt
 {
 
-KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
+KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
 {
     if ((key >= Key_0 && key <= Key_9) || (key >= Key_A && key <= Key_Z))
         return key;
@@ -125,25 +125,28 @@ KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept
         case Key_Angle_Bracket:     return VK_OEM_102;
 
         // Modifier keys
-        case Key_Meta:          return 0;   // Not supported
-        case Key_Meta_Left:     return VK_LWIN;
-        case Key_Meta_Right:    return VK_RWIN;
-        case Key_Ctrl:          return VK_CONTROL;
-        case Key_Ctrl_Left:     return VK_LCONTROL;
-        case Key_Ctrl_Right:    return VK_RCONTROL;
-        case Key_Alt:           return VK_MENU;
-        case Key_Alt_Left:      return VK_LMENU;
-        case Key_Alt_Right:     return VK_RMENU;
-        case Key_Shift:         return VK_SHIFT;
-        case Key_Shift_Left:    return VK_LSHIFT;
-        case Key_Shift_Right:   return VK_RSHIFT;
+        case Key_Meta:              return -1;   // Not supported
+        case Key_Meta_Left:         return VK_LWIN;
+        case Key_Meta_Right:        return VK_RWIN;
+        case Key_Ctrl:              return VK_CONTROL;
+        case Key_Ctrl_Left:         return VK_LCONTROL;
+        case Key_Ctrl_Right:        return VK_RCONTROL;
+        case Key_Alt:               return VK_MENU;
+        case Key_Alt_Left:          return VK_LMENU;
+        case Key_Alt_Right:         return VK_RMENU;
+        case Key_Shift:             return VK_SHIFT;
+        case Key_Shift_Left:        return VK_LSHIFT;
+        case Key_Shift_Right:       return VK_RSHIFT;
 
-        default:                    return 0;
+        default:                    return -1;
     }
 }
 
-KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
+KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept
 {
+    if (nativeKey < 0)
+        return Key_None;
+
     if ((nativeKey >= '0' && nativeKey <= '9') || (nativeKey >= 'A' && nativeKey <= 'Z'))
         return static_cast<Key>(nativeKey);
 
@@ -273,7 +276,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept
         case VK_LSHIFT:             return Key_Shift_Left;
         case VK_RSHIFT:             return Key_Shift_Right;
 
-        default:                    return static_cast<Key>(0);
+        default:                    return KeyNone;
     }
 }
 

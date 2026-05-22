@@ -59,7 +59,7 @@ size_t sendEvents(const std::vector<KeyEvent>& events);
  * @param nativeKey Native key code.
  * @return Key state.
  */
-KeyState getKeyState(uint32_t nativeKey);
+KeyState getKeyState(int32_t nativeKey);
 
 } // namespace details
 

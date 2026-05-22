@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_TOOLS_KEY_UTILITY_HPP
 #define KEYBOARD_TOOLS_KEY_UTILITY_HPP
 
-#include <cstdint>  // uint32_t
+#include <cstdint>  // int32_t
 #include <string>
 
 #include "defines.hpp"
@@ -9,8 +9,11 @@
 namespace kbt
 {
 
-enum Key : uint32_t
+enum Key : int32_t
 {
+    // Invalid key
+    Key_None    = -1,
+
     // Number keys
     Key_0       = 0x0030,
     Key_1       = 0x0031,
@@ -197,9 +200,15 @@ KEYBOARD_TOOLS_API Key keyFromStr(const char* str) noexcept;
 
 KEYBOARD_TOOLS_API Key keyFromStr(const std::string& str) noexcept;
 
-KEYBOARD_TOOLS_API uint32_t keyToNativeKey(Key key) noexcept;
+/**
+ * @return -1 if the key does not have a corresponding system native key value, else the system native key value.
+ */
+KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept;
 
-KEYBOARD_TOOLS_API Key keyFromNativeKey(uint32_t nativeKey) noexcept;
+/**
+ * @return \ref Key::Key_None if the nativeKey does not have a corresponding Key, else the \ref kbt::Key.
+ */
+KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept;
 
 } // namespace kbt
 

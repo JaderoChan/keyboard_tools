@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_TOOLS_TYPES_HPP
 #define KEYBOARD_TOOLS_TYPES_HPP
 
-#include <cstdint>  // uint8_t
+#include <cstdint>  // uint8_t, int32_t
 #include <cstddef>
 
 namespace kbt
@@ -24,7 +24,7 @@ enum KeyState : uint8_t
 struct KeyEvent
 {
     KeyEventType type;  ///< Type of the key event
-    uint32_t nativeKey; ///< Native key code
+    int32_t nativeKey;  ///< Native key code
 };
 
 /**

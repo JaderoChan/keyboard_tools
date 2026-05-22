@@ -58,7 +58,7 @@ KeyEvent keyEventFromCGEvent(CGEventType cgEventType, CGEventRef cgEvent)
 {
     KeyEvent event;
 
-    event.nativeKey = static_cast<uint32_t>(CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeycode));
+    event.nativeKey = static_cast<int32_t>(CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeycode));
     switch (cgEventType)
     {
         case kCGEventKeyDown:
