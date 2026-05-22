@@ -83,7 +83,7 @@ private:
 
 /**
  * @brief Query the status of the specified key.
- * @note Reentrant
+ * @note Reentrant on Windows and MacOS, thread-sfae on Linux.
  */
 KeyState getKeyState(uint32_t nativeKey);
 

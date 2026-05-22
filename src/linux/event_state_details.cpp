@@ -1,10 +1,14 @@
 #include <keyboard_tools_details.hpp>
 
 #include <string>
+#include <vector>
+#include <mutex>
 
 #include <dirent.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <sys/inotify.h>
 #include <unistd.h>
 #include <linux/input.h>
 
@@ -38,49 +42,105 @@ static bool isKeyboardDevice(int fd)
     return true;
 }
 
+struct KbdFdCache
+{
+    KbdFdCache()
+    {
+        inotifyFd = inotify_init1(IN_CLOEXEC | IN_NONBLOCK);
+        if (inotifyFd != -1)
+            inotify_add_watch(inotifyFd, "/dev/input/", IN_CREATE | IN_DELETE);
+    }
+
+    ~KbdFdCache()
+    {
+        for (int fd : fds)
+            close(fd);
+        if (inotifyFd != -1)
+            close(inotifyFd);
+    }
+
+    // Drain inotify events, returns true if any device change was detected.
+    bool drainInotify()
+    {
+        if (inotifyFd == -1)
+            return false;
+
+        alignas(struct inotify_event) char buf[sizeof(struct inotify_event) + NAME_MAX + 1];
+        bool changed = false;
+        while (read(inotifyFd, buf, sizeof(buf)) > 0)
+            changed = true;
+        return changed;
+    }
+
+    void refresh()
+    {
+        for (int fd : fds)
+            close(fd);
+        fds.clear();
+        needsRefresh = false;
+
+        DIR* dir = opendir("/dev/input/");
+        if (!dir)
+            return;
+
+        struct dirent* ent;
+        while ((ent = readdir(dir)) != nullptr)
+        {
+            std::string name = ent->d_name;
+            if (name.rfind("event", 0) != 0)
+                continue;
+
+            std::string path = std::string("/dev/input/") + name;
+            int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK | O_CLOEXEC);
+            if (fd == -1)
+                continue;
+
+            if (isInstanceKbdUInput(fd) || !isKeyboardDevice(fd))
+            {
+                close(fd);
+                continue;
+            }
+
+            fds.push_back(fd);
+        }
+
+        closedir(dir);
+    }
+
+    std::vector<int> fds;
+    int inotifyFd = -1;
+    bool needsRefresh = true;
+    std::mutex mtx;
+};
+
 KeyState getKeyState(uint32_t nativeKey)
 {
     if (nativeKey >= KEY_MAX)
         return KS_RELEASED;
 
-    DIR* dir = opendir("/dev/input/");
-    if (!dir)
-        return KS_RELEASED;
+    static KbdFdCache cache;
+    std::lock_guard<std::mutex> lock(cache.mtx);
 
-    struct dirent* ent;
-    KeyState result = KS_RELEASED;
+    if (cache.needsRefresh || cache.drainInotify())
+        cache.refresh();
 
-    while ((ent = readdir(dir)) != nullptr)
+    uint8_t keyStateBits[KEY_MAX / 8 + 1];
+    for (int fd : cache.fds)
     {
-        std::string name = ent->d_name;
-        if (name.rfind("event", 0) != 0)
-            continue;
-
-        std::string path = std::string("/dev/input/") + name;
-        int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK | O_CLOEXEC);
-        if (fd == -1)
-            continue;
-
-        if (isInstanceKbdUInput(fd) || !isKeyboardDevice(fd))
+        memset(keyStateBits, 0, sizeof(keyStateBits));
+        int rc = ioctl(fd, EVIOCGKEY(sizeof(keyStateBits)), keyStateBits);
+        if (rc == -1)
         {
-            close(fd);
+            if (errno == ENODEV || errno == ENXIO)
+                cache.needsRefresh = true;
             continue;
         }
 
-        uint8_t keyStateBits[KEY_MAX / 8 + 1] = {};
-        if (ioctl(fd, EVIOCGKEY(sizeof(keyStateBits)), keyStateBits) != -1)
-        {
-            if (keyStateBits[nativeKey / 8] & (1 << (nativeKey % 8)))
-                result = KS_PRESSED;
-        }
-        close(fd);
-
-        if (result == KS_PRESSED)
-            break;
+        if (keyStateBits[nativeKey / 8] & (1 << (nativeKey % 8)))
+            return KS_PRESSED;
     }
 
-    closedir(dir);
-    return result;
+    return KS_RELEASED;
 }
 
 } // namespace details
