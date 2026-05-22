@@ -72,9 +72,7 @@ static bool isKeyboardDevice(int fd)
     if (ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
         return false;
 
-    uint32_t checkedKeys[] = {
-        KEY_0, KEY_A, KEY_SPACE, KEY_ESC
-    };
+    uint32_t checkedKeys[] = {KEY_0, KEY_A, KEY_SPACE, KEY_ESC};
     size_t checkedCount = sizeof(checkedKeys) / sizeof(uint32_t);
     for (size_t i = 0; i < checkedCount; ++i)
     {
@@ -164,14 +162,8 @@ static void addEvdevFd(const std::string& evdevName)
     if (evdevFd == -1)
         return;
 
-    // Only accept keyboard-like devices.
-    if (!isKeyboardDevice(evdevFd))
-    {
-        close(evdevFd);
-        return;
-    }
-
-    if (isInstanceKbdUInput(evdevFd))
+    // Only accept keyboard-like devices and not is slef Keyboard UInput.
+    if (!isKeyboardDevice(evdevFd) || isInstanceKbdUInput(evdevFd))
     {
         close(evdevFd);
         return;

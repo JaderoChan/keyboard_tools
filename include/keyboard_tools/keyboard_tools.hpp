@@ -84,6 +84,7 @@ private:
 /**
  * @brief Query the status of the specified key.
  * @note Reentrant on Windows and MacOS, thread-sfae on Linux.
+ * @note This function has poor performance on the Linux platform, so use it with caution in hot loops.
  */
 KeyState getKeyState(uint32_t nativeKey);
 

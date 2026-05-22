@@ -4,12 +4,13 @@
 #include <vector>
 #include <mutex>
 
-#include <dirent.h>
 #include <errno.h>
+#include <dirent.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/inotify.h>
-#include <unistd.h>
+#include <sys/stat.h>
 #include <linux/input.h>
 
 #include "global_uinput.hpp"
@@ -19,6 +20,16 @@ namespace kbt
 
 namespace details
 {
+
+#define EVDEV_DIR "/dev/input/"
+
+static bool isCharacterDevice(const std::string& filepath)
+{
+    struct stat st;
+    if (stat(filepath.c_str(), &st) == -1)
+        return false;
+    return S_ISCHR(st.st_mode);
+}
 
 static bool isKeyboardDevice(int fd)
 {
@@ -32,7 +43,7 @@ static bool isKeyboardDevice(int fd)
     if (ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
         return false;
 
-    uint32_t checkedKeys[] = { KEY_0, KEY_A, KEY_SPACE, KEY_ESC };
+    uint32_t checkedKeys[] = {KEY_0, KEY_A, KEY_SPACE, KEY_ESC};
     size_t checkedCount = sizeof(checkedKeys) / sizeof(uint32_t);
     for (size_t i = 0; i < checkedCount; ++i)
     {
@@ -48,7 +59,7 @@ struct KbdFdCache
     {
         inotifyFd = inotify_init1(IN_CLOEXEC | IN_NONBLOCK);
         if (inotifyFd != -1)
-            inotify_add_watch(inotifyFd, "/dev/input/", IN_CREATE | IN_DELETE);
+            inotify_add_watch(inotifyFd, EVDEV_DIR, IN_CREATE | IN_DELETE);
     }
 
     ~KbdFdCache()
@@ -79,19 +90,18 @@ struct KbdFdCache
         fds.clear();
         needsRefresh = false;
 
-        DIR* dir = opendir("/dev/input/");
+        DIR* dir = opendir(EVDEV_DIR);
         if (!dir)
             return;
 
         struct dirent* ent;
         while ((ent = readdir(dir)) != nullptr)
         {
-            std::string name = ent->d_name;
-            if (name.rfind("event", 0) != 0)
+            std::string path = std::string(EVDEV_DIR) + ent->d_name;
+            if (!isCharacterDevice(path))
                 continue;
 
-            std::string path = std::string("/dev/input/") + name;
-            int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK | O_CLOEXEC);
+            int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
             if (fd == -1)
                 continue;
 
