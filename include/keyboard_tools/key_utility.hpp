@@ -9,10 +9,10 @@
 namespace kbt
 {
 
-enum Key : int32_t
+enum Key : uint32_t
 {
     // Invalid key
-    Key_None    = -1,
+    Key_None    = 0,
 
     // Number keys
     Key_0       = 0x0030,
