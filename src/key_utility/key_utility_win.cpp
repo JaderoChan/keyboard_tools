@@ -276,7 +276,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept
         case VK_LSHIFT:             return Key_Shift_Left;
         case VK_RSHIFT:             return Key_Shift_Right;
 
-        default:                    return KeyNone;
+        default:                    return Key_None;
     }
 }
 
