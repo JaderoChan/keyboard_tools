@@ -24,8 +24,12 @@ namespace kbt
     #define ALT_TEXT    "Alt"
 #endif // KEYBOARD_TOOLS_WIN
 
+#define FUNCTION_TEXT   "Fn"
 #define CTRL_TEXT       "Ctrl"
 #define SHIFT_TEXT      "Shift"
+
+#define IS_FUNCTION(str) \
+(isEqualStr(str, "function") || isEqualStr(str, "fn"))
 
 #define IS_META(str, prefix) \
 (isEqualStr(str, prefix "win") || isEqualStr(str, prefix "windows") || \
@@ -199,18 +203,19 @@ KEYBOARD_TOOLS_API const char* keyToStr(Key key) noexcept
         case Key_Angle_Bracket:     return "<>";
 
         // Modifier keys
-        case Key_Meta:          return META_TEXT;
-        case Key_Meta_Left:     return ("Left " META_TEXT);
-        case Key_Meta_Right:    return ("Right " META_TEXT);
-        case Key_Ctrl:          return CTRL_TEXT;
-        case Key_Ctrl_Left:     return ("Left " CTRL_TEXT);
-        case Key_Ctrl_Right:    return ("Right " CTRL_TEXT);
-        case Key_Alt:           return ALT_TEXT;
-        case Key_Alt_Left:      return ("Left " ALT_TEXT);
-        case Key_Alt_Right:     return ("Right " ALT_TEXT);
-        case Key_Shift:         return SHIFT_TEXT;
-        case Key_Shift_Left:    return ("Left " SHIFT_TEXT);
-        case Key_Shift_Right:   return ("Right " SHIFT_TEXT);
+        case Key_Function:          return FUNCTION_TEXT;
+        case Key_Meta:              return META_TEXT;
+        case Key_Meta_Left:         return ("Left " META_TEXT);
+        case Key_Meta_Right:        return ("Right " META_TEXT);
+        case Key_Ctrl:              return CTRL_TEXT;
+        case Key_Ctrl_Left:         return ("Left " CTRL_TEXT);
+        case Key_Ctrl_Right:        return ("Right " CTRL_TEXT);
+        case Key_Alt:               return ALT_TEXT;
+        case Key_Alt_Left:          return ("Left " ALT_TEXT);
+        case Key_Alt_Right:         return ("Right " ALT_TEXT);
+        case Key_Shift:             return SHIFT_TEXT;
+        case Key_Shift_Left:        return ("Left " SHIFT_TEXT);
+        case Key_Shift_Right:       return ("Right " SHIFT_TEXT);
 
         default:                    return "";
     }
@@ -409,6 +414,7 @@ KEYBOARD_TOOLS_API Key keyFromStr(const std::string& str) noexcept
     if (isEqualStr(str, "<>"))      return Key_Angle_Bracket;
 
     // Modifier keys
+    if (IS_FUNCTION(str))           return Key_Function;
     if (IS_META(str, ""))           return Key_Meta;
     if (IS_META(str, "left"))       return Key_Meta_Left;
     if (IS_META(str, "right"))      return Key_Meta_Right;

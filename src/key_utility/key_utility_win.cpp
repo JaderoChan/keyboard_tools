@@ -125,7 +125,8 @@ KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
         case Key_Angle_Bracket:     return VK_OEM_102;
 
         // Modifier keys
-        case Key_Meta:              return -1;   // Not supported
+        case Key_Function:          return -1;  // Not supported
+        case Key_Meta:              return -1;  // Not supported
         case Key_Meta_Left:         return VK_LWIN;
         case Key_Meta_Right:        return VK_RWIN;
         case Key_Ctrl:              return VK_CONTROL;

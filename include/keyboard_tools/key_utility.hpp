@@ -167,6 +167,7 @@ enum Key : uint32_t
     Key_Angle_Bracket,      // '<>' or '\|' on RT 102-key keyboard
 
     // Modifier keys
+    Key_Function,
     Key_Meta,
     Key_Meta_Left,
     Key_Meta_Right,
@@ -189,6 +190,7 @@ enum Key : uint32_t
     Key_Standby             = Key_Sleep,
     Key_Grave               = Key_Left_Quote,
 
+    Key_Fn                  = Key_Function,
     Key_Option              = Key_Alt,
     Key_Option_Left         = Key_Alt_Left,
     Key_Option_Right        = Key_Alt_Right

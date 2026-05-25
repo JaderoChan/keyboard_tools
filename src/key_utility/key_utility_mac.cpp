@@ -146,6 +146,7 @@ KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
         case Key_Angle_Bracket:     return -1;  // Not supported
 
         // Modifiers keys
+        case Key_Function:          return kVK_Function;
         case Key_Meta:              return kVK_Command;
         case Key_Meta_Left:         return -1;  // Not supported
         case Key_Meta_Right:        return kVK_RightCommand;
@@ -301,6 +302,7 @@ KEYBOARD_TOOLS_API Key keyFromNativeKey(int32_t nativeKey) noexcept
         case kVK_ANSI_Backslash:        return Key_Backslash;
 
         // Modifiers keys
+        case kVK_Function:              return Key_Function;
         case kVK_Command:               return Key_Meta;
         case kVK_RightCommand:          return Key_Meta_Right;
         case kVK_Control:               return Key_Ctrl;

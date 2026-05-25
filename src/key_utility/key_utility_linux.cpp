@@ -142,7 +142,7 @@ KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
         case Key_Scroll_Lock:       return KEY_SCROLLLOCK;
 
         // Device keys
-        case Key_Print_Screen:      return KEY_PRINT;    // Need to check
+        case Key_Print_Screen:      return KEY_PRINT;   // Need to check
         case Key_Sleep:             return KEY_SLEEP;
 
         // OEM (Original Equipment Manufacturer) keys
@@ -159,9 +159,10 @@ KEYBOARD_TOOLS_API int32_t keyToNativeKey(Key key) noexcept
         case Key_Period:            return KEY_DOT;
         case Key_Slash:             return KEY_SLASH;
         case Key_Backslash:         return KEY_BACKSLASH;
-        case Key_Angle_Bracket:     return KEY_102ND;     // Need to check
+        case Key_Angle_Bracket:     return KEY_102ND;   // Need to check
 
         // Modifier keys
+        case Key_Function:          return -1;  // Not supported
         case Key_Meta:              return -1;  // Not supported
         case Key_Meta_Left:         return KEY_LEFTMETA;
         case Key_Meta_Right:        return KEY_RIGHTMETA;
