@@ -9,7 +9,7 @@ C++多平台的键盘事件监听和发送库，起初来自 [Global Hotkey](htt
 ## 特性
 
 - 使用C++11
-- 支持 **Windows**、**Linux**、**MacOS**
+- 支持 **Windows**、**Linux**、**macOS**
 
 ## 如何编译？
 
